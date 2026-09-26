@@ -259,6 +259,7 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
   table{min-width:480px}
   .tile .v{font-size:1.5rem}
 }
+.hyr{font-weight:400;color:var(--muted);font-size:.85em}
 </style>
 </head>
 <body>
@@ -326,17 +327,18 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
 
     <div class="flow">
       <div class="flowrow">
-        <div class="top"><h3>Where the money comes from</h3><span class="tot num" id="inTot"></span></div>
+        <div class="top"><h3>Where the money comes from<span class="hyr" id="inYr"></span></h3><span class="tot num" id="inTot"></span></div>
         <div class="strip" id="inStrip"></div>
         <div class="keys" id="inKeys"></div>
       </div>
       <div class="flowrow">
-        <div class="top"><h3>Where the money goes</h3><span class="tot num" id="outTot"></span></div>
+        <div class="top"><h3>Where the money goes<span class="hyr" id="outYr"></span></h3><span class="tot num" id="outTot"></span></div>
         <div class="strip" id="outStrip"></div>
         <div class="keys" id="outKeys"></div>
       </div>
     </div>
 
+    <p class="hintline" style="padding:18px 0 0">The oil-fund boxes and the note below are for the 2026 proposal and do not follow the year slider.</p>
     <div class="circuit">
       <div class="cbox">
         <div class="cl">Petroleum revenue 2026</div>
@@ -661,27 +663,37 @@ function renderTiles(){
     `<div class="tile${x.oil?' oil':''}"><div class="k">${x.k}</div><div class="v">${x.v}${x.u&&S.unit==="mrd"?'<small>'+(S.real?'mrd. 2026-kr':'mrd. kr')+'</small>':''}</div><div class="n">${x.n}</div></div>`).join("");
 }
 
-/* ---------- hero strips (Ministry's own figur 2.1 grouping, 2026) ---------- */
+/* ---------- hero strips (Ministry's figur 2.1 grouping, follows the year slider) ---------- */
 const RAMP=["var(--r1)","var(--r2)","var(--r3)","var(--r4)","var(--r5)","var(--r6)","var(--r7)"];
-const HERO_IN=[
-  ["Skatt på formue og inntekt",514.8,"Income & wealth tax"],
-  ["Arbeidsgiveravgift og trygdeavgift",514.2,"Payroll & social security"],
-  ["Merverdiavgift",421.0,"VAT"],
-  ["Andre inntekter",178.3,"Other revenue"],
-  ["Renter og aksjeutbytte mv.",83.9,"Interest & dividends"],
-  ["Overføring fra Oljefondet",452.2,"Transfer from the oil fund"]
+const HERO_IN_KEYS=[
+  ["Skatt på formue og inntekt","Income & wealth tax"],
+  ["Arbeidsgiveravgift og trygdeavgift","Payroll & social security"],
+  ["Merverdiavgift","VAT"],
+  [null,"Other revenue","Andre inntekter"],
+  ["Renter og aksjeutbytte mv.","Interest & dividends"]
 ];
-const HERO_OUT=[
-  ["Folketrygden",744.0,"National Insurance"],
-  ["Andre utgifter",581.4,"All other spending"],
-  ["Rammetilskudd til kommuner",259.0,"Municipalities & counties"],
-  ["Regionale helseforetak",237.1,"Regional health trusts"],
-  ["Forsvar",179.8,"Defence"],
-  ["Samferdsel",98.1,"Transport"],
-  ["Høyere utdanning og forskning",65.0,"Higher education & research"]
+const HERO_OUT_KEYS=[
+  ["Folketrygden","National Insurance"],
+  [null,"All other spending","Andre utgifter"],
+  ["Rammetilskudd til kommuner og fylkeskommuner","Municipalities & counties","Rammetilskudd til kommuner"],
+  ["Regionale helseforetak","Regional health trusts"],
+  ["Forsvar","Defence"],
+  ["Samferdsel","Transport"],
+  ["Høyere utdanning, forskning og fagskoler","Higher education & research","Høyere utdanning og forskning"]
 ];
+/* named rows take their own value; the null row is the published total minus the named rows */
+function heroRows(src,keys,total,i){
+  const named=keys.filter(k=>k[0]).reduce((a,k)=>a+src[k[0]].v[i],0);
+  return keys.map(k=>[k[2]||k[0], k[0]?src[k[0]].v[i]:total-named, k[1]]);
+}
 function renderHero(){
-  const T=2164.5;
+  const i=yi(S.year), T=EXP_TOT[i];
+  const inRows=heroRows(REV,HERO_IN_KEYS,REV_TOT[i],i);
+  inRows.push(["Overføring fra Oljefondet",DEF_PUB[i],"Transfer from the oil fund"]);
+  const outRows=heroRows(EXP,HERO_OUT_KEYS,T,i);
+  const lbl=" · "+(S.year===2026?"2026 proposal":S.year+" adopted");
+  document.getElementById("inYr").textContent=lbl;
+  document.getElementById("outYr").textContent=lbl;
   const build=(rows,stripId,keysId,totId,fundIdx)=>{
     document.getElementById(totId).textContent=nf(T,1)+" mrd. kr";
     document.getElementById(stripId).innerHTML=rows.map((r,j)=>{
@@ -693,9 +705,8 @@ function renderHero(){
       return `<span class="key"><i style="background:${c}"></i>${r[0]} <b>${nf(r[1],1)}</b></span>`;
     }).join("");
   };
-  const inRows=[...HERO_IN]; const fi=inRows.findIndex(r=>r[0].startsWith("Overføring"));
-  build(inRows,"inStrip","inKeys","inTot",fi);
-  build(HERO_OUT,"outStrip","outKeys","outTot",null);
+  build(inRows,"inStrip","inKeys","inTot",inRows.length-1);
+  build(outRows,"outStrip","outKeys","outTot",null);
 }
 
 /* ---------- bar lists ---------- */
@@ -713,7 +724,7 @@ function renderList(el,data,tots,opts){
       chg=`<span class="d ${p>=0?'pos':'neg'}">${p>=0?'+':'−'}${nf(Math.abs(p),1)} pp vs 2021</span>`; }
     let prev="";
     if(base!=null&&S.year!==2021){
-      const pw=S.unit==="pct" ? (base/tots[0])/(cur/tot)*w : (S.real?base*Math.pow(1+S.rate/100,5):base)/max*100;
+      const pw=S.unit==="pct" ? (base/tots[0])/(cur/tot)*w : (S.real?base*Math.pow(1+S.rate/100,S.year-2021):base)/max*100;
       prev=`<span class="prev" style="width:${Math.min(100,Math.max(pw,0.4))}%"></span>`;
     }
     return {key:k, html:`<div class="br"><div class="lbl">${k}<em>${o.en}</em></div>
@@ -896,13 +907,13 @@ function renderTables(){
 
 /* ---------- orchestration ---------- */
 function renderDynamic(){
-  hint(); renderTiles();
+  hint(); renderTiles(); renderHero();
   renderList(document.getElementById("revList"),REV,REV_TOT,null);
   renderList(document.getElementById("expList"),EXP,EXP_TOT,{ftSub:true});
   renderSM();
 }
 function init(){
-  renderHero(); renderGap(); renderOil(); renderExcise(); renderFC(); renderTables(); renderDynamic();
+  renderGap(); renderOil(); renderExcise(); renderFC(); renderTables(); renderDynamic();
 
   document.getElementById("yr").addEventListener("input",e=>{
     S.year=+e.target.value; document.getElementById("yrout").textContent=S.year; renderDynamic();
