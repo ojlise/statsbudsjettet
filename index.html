@@ -162,6 +162,9 @@ section.alt .br{background:var(--surface-2)}
 .br.sub .track .fill{background:var(--r6)}
 /* ---------- spending by ministry ---------- */
 .dlens{margin:0 0 8px}
+.dgroup{display:grid; gap:1px; background:var(--hair)}
+.dgroup.open{border-left:3px solid var(--s1); margin-block:6px}
+.dgroup.open > .br.dep:first-child{background:var(--slate-soft)}
 .br.dep{cursor:pointer}
 .br.dep:focus-visible{outline:2px solid var(--s1); outline-offset:-2px}
 .br .car{display:inline-block; width:1.1em; color:var(--muted); font-size:.75em; transition:transform .15s}
@@ -1430,9 +1433,11 @@ function renderDept(){
   let h="";
   deps.forEach(d=>{
     const key="d:"+d.id, open=!!S.depOpen[key], l=depLbl(d.id);
-    h+=mrow("dep",`<span class="car" aria-hidden="true">▸</span>${l[0]}`,l[1],d.tot,d.tot/max*100,null,
+    h+=`<div class="dgroup${open?" open":""}">`;
+    h+=mrow("dep",`<span class="car" aria-hidden="true">▸</span>${l[0]}`,open?l[1]+" · bars below show each part’s share of this ministry":l[1],
+      d.tot,open?100:d.tot/max*100,null,
       ` role="button" tabindex="0" aria-expanded="${open}" data-k="${key}"`);
-    if(!open) return;
+    if(!open){ h+="</div>"; return; }
     Object.values(d.kats).sort((a,b)=>b.tot-a.tot).forEach(k=>{
       const kk="k:"+d.id+":"+k.k, ko=!!S.depOpen[kk], kt=MIN.kat[k.k];
       h+=mrow("sub k1 dep",`<span class="car" aria-hidden="true">▸</span>${kt[0]}`,kt[1]+" · "+k.chs.length+(k.chs.length===1?" chapter":" chapters"),
@@ -1442,6 +1447,7 @@ function renderDept(){
         h+=mrow("sub k2",c.kn,"kap. "+c.kap,c.v,c.v/d.tot*100,c.v/d.tot*100);
       });
     });
+    h+="</div>";
   });
   document.getElementById("depList").innerHTML=h;
   const all=deps.every(d=>S.depOpen["d:"+d.id]);
