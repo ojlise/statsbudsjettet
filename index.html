@@ -160,6 +160,18 @@ section.alt .br{background:var(--surface-2)}
 .d.pos{color:var(--up)} .d.neg{color:var(--down)}
 .br.sub{padding-left:30px} .br.sub .lbl{font-weight:400; color:var(--ink-2)}
 .br.sub .track .fill{background:var(--r6)}
+/* ---------- spending by ministry ---------- */
+.dlens{margin:0 0 8px}
+.br.dep{cursor:pointer}
+.br.dep:focus-visible{outline:2px solid var(--s1); outline-offset:-2px}
+.br .car{display:inline-block; width:1.1em; color:var(--muted); font-size:.75em; transition:transform .15s}
+.br[aria-expanded="true"] .car{transform:rotate(90deg)}
+.br.k1{padding-left:30px}
+.br.k2{padding-left:52px}
+.br.k2 .lbl{font-size:.78125rem}
+.br.k2 .track .fill{background:var(--r5)}
+.br .val .sh{display:block; font-size:.6875rem; font-weight:500; color:var(--muted)}
+@media (max-width:640px){ .br.k1{padding-left:22px} .br.k2{padding-left:34px} }
 .toggleft{appearance:none; border:0; background:transparent; font:inherit; color:var(--s1);
   font-size:.75rem; font-weight:600; cursor:pointer; padding:8px 14px; text-align:left; width:100%;
   border-top:1px solid var(--hair)}
@@ -413,8 +425,30 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
   </div>
 </section>
 
-<!-- ============ 4. FIVE YEARS ============ -->
+<!-- ============ 3b. BY MINISTRY ============ -->
 <section class="alt">
+  <div class="wrap">
+    <div class="shead">
+      <p class="eyebrow">Spending by ministry · Gul bok</p>
+      <h2>Which ministry spends what</h2>
+      <p class="prose" id="depProse"></p>
+    </div>
+    <div class="ctl dlens">
+      <label>Folketrygden</label>
+      <div class="seg" role="group" aria-label="How folketrygden is grouped">
+        <button id="dl-sep" aria-pressed="true">Shown separately</button>
+        <button id="dl-min" aria-pressed="false">Under its ministries</button>
+      </div>
+    </div>
+    <p class="hintline" id="dlNote"></p>
+    <div class="barlist" id="depList"></div>
+    <button class="toggleft" id="depAll" aria-expanded="false">Open all ministries ↓</button>
+    <p class="hintline" style="padding-top:12px" id="depRecon"></p>
+  </div>
+</section>
+
+<!-- ============ 4. FIVE YEARS ============ -->
+<section>
   <div class="wrap">
     <div class="shead">
       <p class="eyebrow">2021 → 2027</p>
@@ -444,7 +478,7 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
 </section>
 
 <!-- ============ 5. THE GAP ============ -->
-<section>
+<section class="alt">
   <div class="wrap">
     <div class="shead">
       <p class="eyebrow">The structural picture</p>
@@ -466,7 +500,7 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
 </section>
 
 <!-- ============ 6. FORECAST BASELINE ============ -->
-<section class="alt">
+<section>
   <div class="wrap">
     <div class="shead">
       <p class="eyebrow">Using this as a baseline</p>
@@ -497,7 +531,7 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
 </section>
 
 <!-- ============ 7. DATA ============ -->
-<section>
+<section class="alt">
   <div class="wrap">
     <div class="shead">
       <p class="eyebrow">Data &amp; method</p>
@@ -509,7 +543,8 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
     <details class="pr"><summary>Spending by area, 2021–2027 (mrd. kroner)</summary><div class="dbody"><div class="tblbox" id="tExp"></div></div></details>
     <details class="pr"><summary>Folketrygden by benefit type (mrd. kroner)</summary><div class="dbody"><div class="tblbox" id="tFt"></div><p style="margin-top:10px">Disability benefit and work assessment allowance are shown separately only from 2023; earlier propositions folded them into “øvrige sosiale formål”.</p></div></details>
     <details class="pr"><summary>Main figures on an accounts basis, 2020–2027 (mrd. kroner)</summary><div class="dbody"><div class="tblbox" id="tAcc"></div><p style="margin-top:10px">2020–2025 are final accounts (<em>statsregnskap</em>), 2026 is the budget as adopted in December 2025, 2027 is the proposal; the 2027 petroleum split was not yet available. Mixing accounts and budget years distorts the step between them, which is why the trend charts above use a consistent adopted-budget basis instead.</p></div></details>
-    <details class="pr"><summary>Spending by ministry, 2020–2026 (mrd. kroner)</summary><div class="dbody"><div class="tblbox" id="tDep"></div></div></details>
+    <details class="pr"><summary>Spending by ministry, 2027 proposal (mrd. kroner)</summary><div class="dbody"><div class="tblbox" id="tDepM"></div><p style="margin-top:10px">From the Gul bok data file (<em>tallgrunnlag</em>), chapters 1–2999 excluding the transfer to the Government Pension Fund Global, state petroleum investments and loan transactions (posts 90–99); the rows sum to the 2027 spending total used on this page. “Folketrygden benefits it runs” are the benefit chapters budgeted under that ministry.</p></div></details>
+    <details class="pr"><summary>Spending by ministry, 2020–2026 (mrd. kroner)</summary><div class="dbody"><div class="tblbox" id="tDep"></div><p style="margin-top:10px">2027 is not appended to this older series. Put side by side, the two would show artificial jumps (Finansdepartementet −34 %, Kunnskapsdepartementet +33 %), which suggests some items are assigned to ministries differently in the two sources; the 2027 split is in the table above and in the ministry section.</p></div></details>
 
     <details class="pr"><summary>Definitions that change the answer</summary><div class="dbody">
       <dl class="dl">
@@ -530,6 +565,7 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
       <ul class="src">
         <li><a href="https://www.regjeringen.no/contentassets/a3f3b731f8fe42408c1eedb031003a98/no/pdfs/prp202620270001guldddpdfs.pdf">Prop. 1 S (2026–2027) Statsbudsjettet (Gul bok)</a>, Finansdepartementet — main figures (Tabell 2.1) and revenue and spending excl. petroleum (Tabell 2.3), adopted 2026 and proposed 2027.</li>
         <li><a href="https://www.regjeringen.no/no/statsbudsjett/2027/statsbudsjettet-2027-statens-inntekter-og-utgifter/id3173250/">Statsbudsjettet 2027: Statens inntekter og utgifter</a>, Finansdepartementet — 2027 proposal: revenue and spending excl. petroleum by line, folketrygden, petroleum totals.</li>
+        <li><a href="https://www.regjeringen.no/no/statsbudsjett/2027/statsbudsjettet-2027-tallgrunnlag-gul-bok/id3173280/">Statsbudsjettet 2027: tallgrunnlag (Gul bok)</a>, Finansdepartementet — appropriation proposals per chapter and post, the basis for the ministry section. The ministry tables in section 2.4 of Prop. 1 S (2026–2027) are built from the same chapters and posts.</li>
         <li><a href="https://www.regjeringen.no/en/whats-new/key-figures-in-the-national-budget-for-2027/id3174610/">Key figures in the National Budget for 2027</a> — structural deficit, fund share and value, underlying spending growth, 2026 estimates.</li>
         <li><a href="https://www.regjeringen.no/contentassets/a49e820763894e44909382324d2bd7bc/nn-no/pdfs/stm202520260003000dddpdfs.pdf">Meld. St. 3 (2025–2026) Statsrekneskapen 2025</a> — 2025 accounts.</li>
         <li><a href="https://www.regjeringen.no/no/aktuelt/nokkeltall-for-saldert-budsjett-2026/id3144955/">Nøkkeltall for saldert budsjett 2026</a> — adopted 2026 deficit measures.</li>
@@ -645,8 +681,374 @@ const DEP={y:[2020,2021,2022,2023,2024,2025,2026], d:{
  "Energidepartementet":[4.0,5.7,33.2,23.1,11.4,13.8,20.5]
 }};
 
+const MIN={ /* Gul bok 2027 tallgrunnlag: kr in thousands, kap. 1–2999 excl. SPU, petroleum and posts 90–99 */
+ gross:3118450080, spu:568426900, petro:35000000, loans:228225549,
+ dept:{"1":["Utenriksdepartementet","Ministry of Foreign Affairs"],"2":["Kunnskapsdepartementet","Ministry of Education and Research"],"3":["Kultur- og likestillingsdepartementet","Ministry of Culture and Equality"],"4":["Justis- og beredskapsdepartementet","Ministry of Justice and Public Security"],"5":["Kommunal- og distriktsdepartementet","Ministry of Local Government and Regional Development"],"6":["Arbeids- og inkluderingsdepartementet","Ministry of Labour and Inclusion"],"7":["Helse- og omsorgsdepartementet","Ministry of Health and Care Services"],"8":["Barne- og familiedepartementet","Ministry of Children and Families"],"9":["Nærings- og fiskeridepartementet","Ministry of Trade, Industry and Fisheries"],"11":["Landbruks- og matdepartementet","Ministry of Agriculture and Food"],"13":["Samferdselsdepartementet","Ministry of Transport"],"14":["Klima- og miljødepartementet","Ministry of Climate and Environment"],"15":["Digitaliserings- og forvaltningsdepartementet","Ministry of Digitalisation and Public Governance"],"16":["Finansdepartementet","Ministry of Finance"],"17":["Forsvarsdepartementet","Ministry of Defence"],"18":["Energidepartementet","Ministry of Energy"],"23":["Ymse","Miscellaneous (reserve, ymse)"]},
+ kat:[["Det kongelige hus","Konstitusjonelle institusjoner"],["Regjeringen","Konstitusjonelle institusjoner"],["Stortinget og eksterne organer","Konstitusjonelle institusjoner"],["Rettsvesen","Justissektoren"],["Administrasjon av utenrikspolitikken","Utenriksforvaltning"],["Utenriksformål","Utenriksforvaltning"],["Forvaltning av utviklingssamarbeidet","Internasjonal bistand"],["Utviklingssamarbeidet","Internasjonal bistand"],["Administrasjon","Kunnskapsformål"],["Grunnopplæringen","Kunnskapsformål"],["Barnehager","Kunnskapsformål"],["Høyere yrkesfaglig utdanning","Kunnskapsformål"],["Kompetansepolitikk og livslang læring","Kunnskapsformål"],["Høyere utdanning og forskning","Kunnskapsformål"],["Administrasjon","Kulturformål"],["Frivillighetsformål","Kulturformål"],["Kulturformål","Kulturformål"],["Medieformål m.m.","Kulturformål"],["Likestilling","Kulturformål"],["Administrasjon","Justissektoren"],["Straffegjennomføring og konfliktråd","Justissektoren"],["Politi og påtalemyndighet","Justissektoren"],["Redningstjenesten, samfunnssikkerhet og beredskap","Justissektoren"],["Andre virksomheter","Justissektoren"],["Statens sivilrettsforvaltning, rettshjelp, erstatningsordninger m.m.","Justissektoren"],["Svalbardbudsjettet m.m.","Justissektoren"],["Beskyttelse og innvandring","Justissektoren"],["Administrasjon","Kommunal- og distriktsdepartementet"],["Distrikts- og regionalpolitikk","Kommunal- og distriktsdepartementet"],["Samiske formål","Kommunal- og distriktsdepartementet"],["Nasjonale minoriteter","Kommunal- og distriktsdepartementet"],["Kommunesektoren mv.","Kommunal- og distriktsdepartementet"],["Bolig, bomiljø og bygg","Kommunal- og distriktsdepartementet"],["Planlegging, byutvikling og geodata","Kommunal- og distriktsdepartementet"],["Administrasjon","Arbeid og sosiale formål"],["Administrasjon av arbeids- og velferdspolitikken","Arbeid og sosiale formål"],["Pensjoner mv. under Statens pensjonskasse","Arbeid og sosiale formål"],["Tiltak for bedrede levekår mv.","Arbeid og sosiale formål"],["Arbeidsmarked","Arbeid og sosiale formål"],["Arbeidsmiljø og sikkerhet","Arbeid og sosiale formål"],["Kontantytelser","Arbeid og sosiale formål"],["Integrering og mangfold","Arbeid og sosiale formål"],["Helse- og omsorgsdepartementet mv.","Helse og omsorg"],["Folkehelse mv.","Helse og omsorg"],["Spesialisthelsetjenester","Helse og omsorg"],["Sentral helseforvaltning","Helse og omsorg"],["Helse- og omsorgstjenester i kommunene","Helse og omsorg"],["Tannhelse","Helse og omsorg"],["Kunnskap og kompetanse","Helse og omsorg"],["Administrasjon og forskning","Barn og familie"],["Familie og oppvekst","Barn og familie"],["Barnevernet","Barn og familie"],["Forbrukerpolitikk","Barn og familie"],["Den norske kirke og andre tros- og livssynssamfunn","Barn og familie"],["Forvaltning og rammebetingelser","Nærings- og fiskeriformål"],["Forskning og innovasjon","Nærings- og fiskeriformål"],["Handel og markedsadgang","Nærings- og fiskeriformål"],["Statlig eierskap","Nærings- og fiskeriformål"],["Administrasjon m.m.","Landbruk og mat"],["Matpolitikk","Landbruk og mat"],["Forskning, innovasjon og kunnskapsutvikling","Landbruk og mat"],["Næringsutvikling, ressursforvaltning og miljøtiltak","Landbruk og mat"],["Administrasjon m.m.","Innenlands transport"],["Luftfartsformål","Innenlands transport"],["Veiformål","Innenlands transport"],["Særskilte transporttiltak","Innenlands transport"],["Jernbaneformål","Innenlands transport"],["Posttjenester","Posttjenester"],["Fellesoppgaver, forskning, internasjonalt arbeid m.m.","Klima og miljø"],["Klima, naturmangfold og forurensning","Klima og miljø"],["Kulturmiljø","Klima og miljø"],["Nord- og polarområdene","Klima og miljø"],["Internasjonalt klimaarbeid","Klima og miljø"],["Administrasjon","Digitalisering og forvaltning"],["Fellestjenester for departementene og Statsministerens kontor","Digitalisering og forvaltning"],["Statsforvalterne","Digitalisering og forvaltning"],["Statlige byggeprosjekter og eiendomsforvaltning","Digitalisering og forvaltning"],["Forvaltningsutvikling, digitaliserings-, personvern- og ekompolitikk","Digitalisering og forvaltning"],["Statlig arbeidsgiverpolitikk","Digitalisering og forvaltning"],["Finansadministrasjon","Finansadministrasjon"],["Skatte-, avgifts- og tolladministrasjon","Finansadministrasjon"],["Offisiell statistikk","Finansadministrasjon"],["Andre formål","Finansadministrasjon"],["Statsgjeld, renter og avdrag mv.","Statlig gjeld og fordringer, renter og avdrag mv."],["Militært forsvar mv.","Militært forsvar"],["Administrasjon","Energiformål"],["Petroleum m.m.","Energiformål"],["Energi og vannressurser","Energiformål"],["Klima, industri og teknologi","Energiformål"],["Sikkerhet og arbeidsmiljø i petroleumsvirksomheten og annen industrivirksomhet til havs","Energiformål"],["Reserve for påregnelige, ikke fordelte utgifter og inntekter","Ymse"],["Utdanningsstøtte","Kunnskapsformål"],["Stønad ved fødsel, adopsjon og bidragsforskott","Foreldrepenger mv., folketrygden"],["Arbeidsliv","Arbeidsliv, folketrygden"],["Arbeidsliv","Arbeidsliv, folketrygden"],["Enslige forsørgere","Sosiale formål, folketrygden"],["Inntektssikring ved sykdom, arbeidsavklaring og uførhet","Sosiale formål, folketrygden"],["Kompensasjon for merutgifter for nedsatt funksjonsevne mv.","Sosiale formål, folketrygden"],["Alderdom","Sosiale formål, folketrygden"],["Forsørgertap mv.","Sosiale formål, folketrygden"],["Spesialisthelsetjenester mv.","Helsetjenester, folketrygden"],["Legehjelp, legemidler mv.","Helsetjenester, folketrygden"],["Andre helsetiltak","Helsetjenester, folketrygden"]],
+ rows:[
+[15,0,0,1,"H.M. Kongen og H.M. Dronningen",319058],
+[16,0,1,20,"Statsministerens kontor",104866],
+[16,0,1,21,"Statsrådet",207996],
+[16,0,1,24,"Regjeringsadvokaten",156637],
+[16,0,2,41,"Stortinget",2027914],
+[16,0,2,42,"Stortingets ombudsnemnd for Forsvaret",13386],
+[16,0,2,43,"Stortingets ombud for kontroll med forvaltningen",132228],
+[16,0,2,44,"Stortingets kontrollutvalg for etterretnings-, overvåkings- og sikkerhetstjeneste",54127],
+[16,0,2,45,"Norges institusjon for menneskerettigheter",39124],
+[16,0,2,51,"Riksrevisjonen",729999],
+[16,0,2,55,"Granskingskommisjon for å undersøke forhold som har blitt aktualisert gjennom offentliggjøringen av Epstein-dokumentene",39000],
+[4,0,3,61,"Høyesterett",151699],
+[1,0,4,100,"Utenriksdepartementet",5459508],
+[1,0,4,103,"Regjeringens representasjon",44489],
+[1,0,4,104,"Kongefamiliens offisielle reiser til utlandet",9054],
+[1,0,4,105,"Direktoratet for eksportkontroll og sanksjoner",79582],
+[1,0,5,116,"Internasjonale organisasjoner",1789883],
+[1,0,5,117,"EØS-finansieringsordningene",4222000],
+[1,0,5,118,"Utenrikspolitiske satsinger",268224],
+[1,0,6,140,"Utenriksdepartementet",101688],
+[1,0,6,141,"Direktoratet for utviklingssamarbeid (Norad)",494037],
+[1,0,6,144,"Norsk senter for utvekslingssamarbeid (Norec)",302001],
+[1,0,7,150,"Humanitær bistand",5896481],
+[1,0,7,151,"Fred, sikkerhet og globalt samarbeid",1067885],
+[1,0,7,152,"Menneskerettigheter",880993],
+[1,0,7,159,"Regionbevilgninger",17763630],
+[1,0,7,160,"Helse",3853381],
+[1,0,7,161,"Utdanning, forskning og offentlige institusjoner",1441237],
+[1,0,7,162,"Næringsutvikling, matsystemer og fornybar energi",2501860],
+[1,0,7,163,"Klima, miljø og hav",1475911],
+[1,0,7,164,"Likestilling",1003219],
+[1,0,7,165,"Norfund",1606622],
+[1,0,7,170,"Sivilt samfunn",2570665],
+[1,0,7,171,"FNs utviklingsarbeid",746200],
+[1,0,7,172,"Multilaterale finansinstitusjoner og gjeldslette",2890010],
+[1,0,7,179,"Flyktningtiltak i Norge",2580868],
+[2,0,8,200,"Kunnskapsdepartementet",454889],
+[2,0,8,201,"Analyse og kunnskapsgrunnlag",347881],
+[2,0,9,220,"Utdanningsdirektoratet",853259],
+[2,0,9,221,"Foreldreutvalgene for grunnopplæringen og barnehagene",18538],
+[2,0,9,222,"Statlige skoler og fjernundervisningstjenester",174371],
+[2,0,9,223,"Diamanten skole",31624],
+[2,0,9,224,"Tilskudd til freds- og menneskerettighetssentre",168192],
+[2,0,9,225,"Tiltak i grunnopplæringen",1876603],
+[2,0,9,226,"Kvalitetsutvikling i grunnopplæringen",3804571],
+[2,0,9,227,"Tilskudd til særskilte skoler",284162],
+[2,0,9,228,"Tilskudd til private skoler mv.",8797495],
+[2,0,9,229,"22. juli-senteret",65991],
+[2,0,9,230,"Statlig spesialpedagogisk tjeneste",731533],
+[2,0,10,231,"Barnehager",1785216],
+[2,0,11,240,"Fagskoler",2135364],
+[2,0,11,241,"Tiltak for høyere yrkesfaglig utdanning",21412],
+[2,0,11,242,"Norges grønne fagskole - Vea",43110],
+[2,0,12,253,"Folkehøyskoler",1160561],
+[2,0,12,254,"Studieforbund mv.",34812],
+[2,0,12,256,"Direktoratet for høyere utdanning og kompetanse",535923],
+[2,0,12,257,"Kompetanseprogrammet",237937],
+[2,0,12,258,"Tiltak for livslang læring",87705],
+[2,0,13,260,"Universiteter og høyskoler",50296100],
+[2,0,13,270,"Studentvelferd",1914545],
+[2,0,13,271,"Nasjonalt organ for kvalitet i utdanningen",163297],
+[2,0,13,272,"Tiltak for internasjonalisering og høyere utdanning",211378],
+[2,0,13,273,"Kunnskapssektorens tjenesteleverandør - Sikt",401972],
+[2,0,13,274,"Universitetssenteret på Svalbard",200884],
+[2,0,13,275,"Tiltak for høyere utdanning og forskning",124722],
+[2,0,13,284,"De nasjonale forskningsetiske komiteene",23454],
+[2,0,13,285,"Norges forskningsråd",7410370],
+[2,0,13,288,"Internasjonale samarbeidstiltak",5562011],
+[2,0,13,289,"Vitenskapelige priser",60976],
+[3,0,14,300,"Kultur- og likestillingsdepartementet",210854],
+[3,0,15,315,"Frivillighetsformål",4439497],
+[3,0,16,320,"Kulturdirektoratet og Kulturrådet m.m.",2778249],
+[3,0,16,322,"Bygg og offentlige rom",464994],
+[3,0,16,323,"Musikk og scenekunst",3580746],
+[3,0,16,325,"Allmenne kulturformål",442005],
+[3,0,16,326,"Språk- og bibliotekformål",1167114],
+[3,0,16,327,"Nidaros domkirkes restaureringsarbeider mv.",130925],
+[3,0,16,328,"Museer m.m.",2898355],
+[3,0,16,329,"Arkivformål",570941],
+[3,0,17,334,"Film- og dataspillformål",1199034],
+[3,0,17,335,"Medieformål",8912107],
+[3,0,17,337,"Kompensasjons- og vederlagsordninger",436660],
+[3,0,17,339,"Pengespill, lotterier og stiftelser",154578],
+[3,0,18,350,"Sekretariatet for Diskrimineringsnemnda",39283],
+[3,0,18,351,"Likestilling",188045],
+[3,0,18,352,"Nedsatt funksjonsevne",387650],
+[3,0,18,353,"Likestillings- og diskrimineringsombudet",58383],
+[4,0,19,400,"Justis- og beredskapsdepartementet",593224],
+[4,0,3,410,"Domstolene",3921620],
+[4,0,3,414,"Forliksråd og andre domsutgifter",479274],
+[4,0,20,430,"Kriminalomsorgen",7502128],
+[4,0,20,432,"Høyskolen for kriminalomsorg",318807],
+[4,0,20,433,"Konfliktrådet",382675],
+[4,0,21,440,"Politiet",28260697],
+[4,0,21,442,"Politihøgskolen",812551],
+[4,0,21,443,"Påtalemyndigheten i politiet",1832359],
+[4,0,21,444,"Politiets sikkerhetstjeneste (PST)",2273451],
+[4,0,21,445,"Den høyere påtalemyndighet",417650],
+[4,0,21,448,"Grensekommissæren",7850],
+[4,0,22,451,"Direktoratet for samfunnssikkerhet og beredskap",2880661],
+[4,0,22,452,"Sentral krisehåndtering",29624],
+[4,0,22,453,"Klareringsdirektoratet",124610],
+[4,0,22,454,"Redningshelikoptertjenesten",2410324],
+[4,0,22,455,"Redningstjenesten",636177],
+[4,0,22,457,"Nasjonal sikkerhetsmyndighet",785787],
+[4,0,23,460,"Spesialenheten for politisaker",81217],
+[4,0,23,461,"Advokattilsynet",90095],
+[4,0,23,466,"Særskilte straffesaksutgifter m.m.",2155335],
+[4,0,23,467,"Norsk Lovtidend",14713],
+[4,0,23,468,"Kommisjonen for gjenopptakelse av straffesaker",32579],
+[4,0,24,470,"Fri rettshjelp",1019798],
+[4,0,24,471,"Statens erstatningsansvar og Stortingets rettferdsvederlagsordning",315222],
+[4,0,24,473,"Statens sivilrettsforvaltning",940566],
+[4,0,24,475,"Bobehandling",238797],
+[4,0,25,480,"Svalbardbudsjettet",648148],
+[4,0,25,481,"Samfunnet Jan Mayen",66420],
+[4,0,26,490,"Utlendingsdirektoratet",5337922],
+[4,0,26,491,"Utlendingsnemnda",349103],
+[5,0,27,500,"Kommunal- og distriktsdepartementet",471990],
+[5,0,28,553,"Regional- og distriktsutvikling",1261157],
+[5,0,28,554,"Kompetansesenter for distriktsutvikling",102803],
+[5,0,29,560,"Samiske formål",832388],
+[5,0,29,563,"Internasjonalt reindriftssenter",10713],
+[5,0,30,567,"Nasjonale minoriteter",96225],
+[5,0,31,571,"Rammetilskudd til kommuner",217183885],
+[5,0,31,572,"Rammetilskudd til fylkeskommuner",60384001],
+[5,0,31,573,"Kommunestruktur",70000],
+[5,0,31,575,"Ressurskrevende tjenester",14401842],
+[5,0,31,577,"Partistøtte",638958],
+[5,0,31,578,"Valgdirektoratet",117809],
+[5,0,31,579,"Valgutgifter",9070],
+[5,0,32,581,"Bolig- og bomiljøtiltak",4250385],
+[5,0,33,590,"Planlegging og byutvikling",241695],
+[5,0,33,595,"Statens kartverk",1636179],
+[6,0,34,600,"Arbeids- og inkluderingsdepartementet",321179],
+[6,0,34,601,"Utredningsvirksomhet, forskning mv.",532473],
+[6,0,35,604,"Utviklingstiltak i arbeids- og velferdsforvaltningen",483182],
+[6,0,35,605,"Arbeids- og velferdsetaten",16085012],
+[6,0,35,606,"Trygderetten",125427],
+[6,0,36,611,"Pensjoner av statskassen",20000],
+[6,0,36,612,"Tilskudd til Statens pensjonskasse",13156000],
+[6,0,36,613,"Arbeidsgiveravgift til folketrygden",1000],
+[6,0,37,621,"Tilskudd til sosiale tjenester og sosial inkludering",434190],
+[6,0,38,634,"Arbeidsmarkedstiltak",12986183],
+[6,0,39,640,"Arbeidstilsynet",1002631],
+[6,0,39,643,"Statens arbeidsmiljøinstitutt",193257],
+[6,0,39,647,"Kompensasjonsordning for oljepionerene",64604],
+[6,0,39,648,"Arbeidsretten, Riksmekleren mv.",31935],
+[6,0,40,660,"Krigspensjon",61000],
+[6,0,40,664,"Pensjonsordningen for arbeidstakere til sjøs",15400],
+[6,0,40,666,"Avtalefestet pensjon (AFP)",5060000],
+[6,0,40,667,"Supplerende stønad",955000],
+[6,0,41,670,"Integrerings- og mangfoldsdirektoratet",422843],
+[6,0,41,671,"Bosetting av flyktninger og tiltak for innvandrere",16693233],
+[6,0,41,672,"Opplæring i norsk og samfunnskunnskap for voksne innvandrere",1534296],
+[7,0,42,700,"Helse- og omsorgsdepartementet",388552],
+[7,0,42,701,"Digitalisering i helse- og omsorgstjenesten",686193],
+[7,0,42,702,"Beredskap",35445],
+[7,0,42,703,"Internasjonalt samarbeid",311262],
+[7,0,42,704,"Norsk helsearkiv",90393],
+[7,0,42,709,"Pasient- og brukerombud",90502],
+[7,0,43,710,"Vaksiner mv.",758319],
+[7,0,43,712,"Bioteknologirådet",14457],
+[7,0,43,714,"Folkehelse",551683],
+[7,0,43,717,"Legemiddeltiltak",183237],
+[7,0,44,732,"Regionale helseforetak",250393335],
+[7,0,44,733,"Habilitering og rehabilitering",135984],
+[7,0,44,734,"Særskilte tilskudd til psykisk helse og rustiltak",812177],
+[7,0,44,737,"Historiske pensjonskostnader",111908],
+[7,0,45,740,"Helsedirektoratet",2057517],
+[7,0,45,741,"Norsk pasientskadeerstatning",346741],
+[7,0,45,742,"Nasjonalt klageorgan for helsetjenesten",209911],
+[7,0,45,745,"Folkehelseinstituttet",1831615],
+[7,0,45,746,"Direktoratet for medisinske produkter",608912],
+[7,0,45,747,"Direktoratet for strålevern og atomsikkerhet",268771],
+[7,0,45,748,"Statens helsetilsyn",206383],
+[7,0,45,749,"Statens undersøkelseskommisjon for helse- og omsorgstjenesten",40116],
+[7,0,46,760,"Kommunale helse- og omsorgstjenester",7072061],
+[7,0,46,765,"Psykisk helse, rus og vold",2150715],
+[7,0,47,770,"Tannhelsetjenester",502418],
+[7,0,48,780,"Forskning",421322],
+[7,0,48,781,"Forsøk og utvikling mv.",105194],
+[7,0,48,783,"Personell",382177],
+[8,0,49,800,"Barne- og familiedepartementet",250760],
+[8,0,50,840,"Tiltak mot vold og overgrep",399688],
+[8,0,50,841,"Samliv og konfliktløsning",8278],
+[8,0,50,842,"Familievern og mekling",805554],
+[8,0,50,843,"Adopsjonsstøtte",1411],
+[8,0,50,844,"Kontantstøtte",739000],
+[8,0,50,845,"Barnetrygd",30060000],
+[8,0,50,846,"Familie- og oppveksttiltak",1966168],
+[8,0,50,847,"EUs ungdomsprogram",18614],
+[8,0,50,848,"Barneombudet",28053],
+[8,0,51,853,"Barneverns- og helsenemndene",285917],
+[8,0,51,854,"Tiltak i barne- og ungdomsvernet",588648],
+[8,0,51,855,"Statlig forvaltning av barnevernet",10993711],
+[8,0,51,856,"Barnevernets omsorgssenter for enslige, mindreårige asylsøkere",393680],
+[8,0,51,858,"Barne-, ungdoms- og familiedirektoratet",752602],
+[8,0,52,860,"Forbrukerrådet",139588],
+[8,0,52,862,"Stiftelsen Miljømerking i Norge",18490],
+[8,0,52,865,"Forbrukerpolitiske tiltak",23895],
+[8,0,52,868,"Forbrukertilsynet",161541],
+[8,0,53,880,"Den norske kirke",2989376],
+[8,0,53,881,"Tilskudd til trossamfunn m.m.",1428166],
+[8,0,53,882,"Kirkebygg og gravplasser",99608],
+[8,0,53,883,"Kirkebevaringsfondet",554332],
+[9,0,54,900,"Nærings- og fiskeridepartementet",1712479],
+[9,0,54,901,"Havbunns- og kystkartlegging",64087],
+[9,0,54,902,"Justervesenet",278506],
+[9,0,54,903,"Norsk akkreditering",94838],
+[9,0,54,904,"Brønnøysundregistrene",827928],
+[9,0,54,905,"Norges geologiske undersøkelse",266923],
+[9,0,54,906,"Direktoratet for mineralforvaltning med Bergmesteren for Svalbard",139102],
+[9,0,54,907,"Norsk nukleær dekommisjonering",1090976],
+[9,0,54,908,"Institutt for energiteknikk",438860],
+[9,0,54,909,"Tiltak for sysselsetting av sjøfolk",2575000],
+[9,0,54,910,"Sjøfartsdirektoratet",563887],
+[9,0,54,911,"Konkurransetilsynet",157967],
+[9,0,54,912,"Klagenemndssekretariatet",55368],
+[9,0,54,916,"Kystverket",4487343],
+[9,0,54,917,"Fiskeridirektoratet",747590],
+[9,0,54,919,"Diverse fiskeriformål",2067518],
+[9,0,55,920,"Norges forskningsråd",2386552],
+[9,0,55,922,"Romvirksomhet",2231011],
+[9,0,55,923,"Havforskningsinstituttet",2083667],
+[9,0,55,924,"Internasjonale samarbeidsprogrammer",199400],
+[9,0,55,928,"Annen marin forskning og utvikling",200054],
+[9,0,55,930,"Design og arkitektur Norge",10259],
+[9,0,55,935,"Patentstyret",382848],
+[9,0,55,936,"Klagenemnda for industrielle rettigheter",9962],
+[9,0,56,940,"Internasjonaliseringstiltak",78300],
+[9,0,57,950,"Forvaltning av statlig eierskap",33100],
+[9,0,57,951,"Store Norske Spitsbergen Kulkompani AS",198937],
+[9,0,57,952,"Investinor AS",8400],
+[9,0,57,954,"Petoro AS",471303],
+[11,0,58,1100,"Landbruks- og matdepartementet",220553],
+[11,0,59,1115,"Mattilsynet",1792177],
+[11,0,60,1135,"Veterinærinstituttet",116302],
+[11,0,60,1136,"Norsk institutt for bioøkonomi",278609],
+[11,0,60,1137,"Forskning og innovasjon",669537],
+[11,0,61,1138,"Støtte til organisasjoner m.m.",65749],
+[11,0,61,1139,"Genressurser, miljø- og ressursregistreringer",35726],
+[11,0,61,1140,"Høstbare viltressurser - forvaltning og tilskudd til viltformål (Viltfondet) m.m.",90390],
+[11,0,61,1141,"Høstbare viltressurser - jegerprøve, tilskudd til organisasjoner m.m.",14086],
+[11,0,61,1142,"Landbruksdirektoratet",1037042],
+[11,0,61,1148,"Naturskade - erstatninger",134300],
+[11,0,61,1149,"Verdiskapings- og utviklingstiltak i landbruket",95111],
+[11,0,61,1150,"Til gjennomføring av jordbruksavtalen m.m.",33420538],
+[11,0,61,1151,"Til gjennomføring av reindriftsavtalen",275000],
+[11,0,61,1152,"Innovasjon Norge",217444],
+[11,0,61,1161,"Myndighetsoppgaver og sektorpolitiske oppgaver på statsgrunn",33060],
+[13,0,62,1300,"Samferdselsdepartementet",341200],
+[13,0,62,1301,"Forskning og utvikling mv.",201700],
+[13,0,63,1310,"Flytransport",2583100],
+[13,0,63,1313,"Luftfartstilsynet",391600],
+[13,0,63,1314,"Statens havarikommisjon",109400],
+[13,0,63,1315,"Tilskudd til Avinor AS",272200],
+[13,0,64,1320,"Statens vegvesen",44394500],
+[13,0,64,1321,"Nye Veier AS",7257100],
+[13,0,64,1323,"Vegtilsynet",24400],
+[13,0,65,1330,"Særskilte transporttiltak",2603500],
+[13,0,65,1332,"Transport i byområder mv.",6487400],
+[13,0,66,1352,"Jernbanedirektoratet",32287600],
+[13,0,66,1354,"Statens jernbanetilsyn",127500],
+[13,0,66,1358,"Norske tog AS",1306500],
+[13,0,67,1370,"Posttjenester",1520700],
+[14,0,68,1400,"Klima- og miljødepartementet",696096],
+[14,0,68,1410,"Kunnskap om klima og miljø",1413002],
+[14,0,68,1411,"Artsdatabanken",92079],
+[14,0,68,1412,"Meteorologiformål",648562],
+[14,0,69,1420,"Miljødirektoratet",12276520],
+[14,0,69,1422,"Miljøvennlig skipsfart",50337],
+[14,0,69,1423,"Radioaktiv forurensning i det ytre miljø",59824],
+[14,0,69,1424,"Statens villreinfond",25000],
+[14,0,69,1425,"Fisketiltak",16453],
+[14,0,69,1428,"Enova SF",3043209],
+[14,0,70,1429,"Riksantikvaren",801040],
+[14,0,70,1432,"Norsk kulturminnefond",121527],
+[14,0,71,1471,"Norsk Polarinstitutt",762583],
+[14,0,71,1472,"Svalbards miljøvernfond",19307],
+[14,0,71,1473,"Kings Bay AS",88267],
+[14,0,71,1474,"Fram - Nordområdesenter for klima- og miljøforskning",64401],
+[14,0,72,1481,"Klimakvoter",1103040],
+[14,0,72,1482,"Internasjonale klima- og utviklingstiltak",4082387],
+[15,0,73,1500,"Digitaliserings- og forvaltningsdepartementet",486542],
+[15,0,74,1510,"Departementenes sikkerhets- og serviceorganisasjon",1048376],
+[15,0,74,1511,"Prosjekter tilknyttet nytt regjeringskvartal",354796],
+[15,0,74,1512,"Diverse fellestjenester",1216366],
+[15,0,74,1515,"Departementenes digitaliseringsorganisasjon",852987],
+[15,0,75,1520,"Statsforvalterne",2985382],
+[15,0,76,1530,"Byggeprosjekter utenfor husleieordningen",4849883],
+[15,0,76,1531,"Eiendommer til kongelige formål",90668],
+[15,0,76,1533,"Eiendommer utenfor husleieordningen",64768],
+[15,0,76,1534,"Erstatningslokaler for departementene",99700],
+[15,0,77,1540,"Digitaliseringsdirektoratet",1321305],
+[15,0,77,1541,"Digitaliserings- og ekompolitikk",69807],
+[15,0,77,1542,"Internasjonalt samarbeid",346524],
+[15,0,77,1543,"Nasjonal kommunikasjonsmyndighet",1129094],
+[15,0,77,1545,"Datatilsynet",93648],
+[15,0,77,1546,"Personvernnemnda",4264],
+[15,0,78,1560,"Tariffavtalte avsetninger mv.",340200],
+[15,0,78,1565,"Boliglånsordningen i Statens pensjonskasse",68000],
+[15,0,78,1566,"Yrkesskadeforsikring",95000],
+[15,0,78,1567,"Gruppelivsforsikring",260000],
+[16,0,79,1600,"Finansdepartementet",602657],
+[16,0,79,1602,"Finanstilsynet",697364],
+[16,0,79,1605,"Direktoratet for forvaltning og økonomistyring",1358228],
+[16,0,80,1610,"Tolletaten",2603954],
+[16,0,80,1618,"Skatteetaten",9691002],
+[16,0,80,1619,"Skatteklagenemnda",98198],
+[16,0,81,1620,"Statistisk sentralbyrå",1070913],
+[16,0,82,1632,"Kompensasjon for merverdiavgift",37420000],
+[16,0,82,1633,"Nettoordning, statlig betalt merverdiavgift",14500000],
+[16,0,82,1635,"Forskuttering av erstatningskrav",1000],
+[16,0,83,1650,"Statsgjeld, renter mv.",24399107],
+[17,0,84,1700,"Forsvarsdepartementet",3430088],
+[17,0,84,1710,"Forsvarsbygg og nybygg og nyanlegg",17864471],
+[17,0,84,1716,"Forsvarets forskningsinstitutt",398820],
+[17,0,84,1720,"Forsvaret",54195875],
+[17,0,84,1730,"Forsvarshistorisk museum",228486],
+[17,0,84,1735,"Etterretningstjenesten",5365823],
+[17,0,84,1740,"Statens graderte plattformtjenester",1014128],
+[17,0,84,1750,"Militær støtte til Ukraina",68651399],
+[17,0,84,1760,"Forsvarsmateriell og større anskaffelser og vedlikehold",39694971],
+[17,0,84,1791,"Redningshelikoptertjenesten",809120],
+[18,0,85,1800,"Energidepartementet",373920],
+[18,0,86,1810,"Sokkeldirektoratet",563300],
+[18,0,87,1820,"Norges vassdrags- og energidirektorat",18946600],
+[18,0,87,1825,"Energieffektivisering og -omlegging",1110000],
+[18,0,88,1850,"Klima, industri og teknologi",2731500],
+[18,0,89,1860,"Havindustritilsynet",435000],
+[23,0,90,2309,"Tilfeldige utgifter",6300000],
+[2,0,91,2410,"Statens lånekasse for utdanning",24253559],
+[5,0,32,2412,"Husbanken - Bolig- og bygningsdirektoratet",898986],
+[9,0,55,2421,"Innovasjon Norge",2521088],
+[9,0,55,2426,"Siva SF",279126],
+[15,0,76,2445,"Statsbygg",5117001],
+[9,0,56,2460,"Eksportfinansiering Norge",113219],
+[6,0,36,2470,"Statens pensjonskasse",145037],
+[8,1,92,2530,"Foreldrepenger",35275000],
+[8,1,92,2531,"Bidragsforskott",820000],
+[9,1,93,2540,"Stønad under arbeidsledighet til fiskere og fangstmenn",90000],
+[6,1,94,2541,"Dagpenger",17605000],
+[6,1,94,2542,"Statsgaranti for lønnskrav ved konkurs mv.",1185000],
+[6,1,95,2620,"Stønad til enslig mor eller far",1095000],
+[6,1,96,2650,"Sykepenger mv.",80603200],
+[6,1,96,2651,"Arbeidsavklaringspenger mv.",59829900],
+[6,1,96,2652,"Et enklere Nav - forsøk med aktivitetspenger for unge",284000],
+[6,1,96,2655,"Uføretrygd mv.",150291000],
+[6,1,97,2661,"Grunn- og hjelpestønad, hjelpemidler mv.",16712309],
+[6,1,98,2670,"Alderdom",378160000],
+[6,1,99,2680,"Etterlatte",2911300],
+[6,1,99,2686,"Stønad ved gravferd",423000],
+[7,1,100,2711,"Spesialisthelsetjeneste mv.",8946800],
+[7,1,101,2751,"Legemidler mv.",18343000],
+[7,1,101,2752,"Refusjon av egenbetaling",8775000],
+[7,1,101,2755,"Helsetjenester i kommunene mv.",11226600],
+[7,1,101,2756,"Andre helsetjenester",1229000],
+[7,1,102,2790,"Andre helsetiltak",274000]
+ ]};
+
 /* ---------- state ---------- */
-const S={year:LAST, unit:"mrd", real:false, rate:2.7, ftOpen:false, smSide:"exp", smLines:false};
+const S={year:LAST, unit:"mrd", real:false, rate:2.7, ftOpen:false, smSide:"exp", smLines:false, depLens:"sep", depOpen:{}};
 const nf=(v,d=1)=>v.toLocaleString('nb-NO',{minimumFractionDigits:d,maximumFractionDigits:d});
 const ni=v=>Math.round(v).toLocaleString('nb-NO');
 const yi=y=>YRS.indexOf(y);
@@ -996,15 +1398,95 @@ function renderTables(){
   document.getElementById("tAcc").innerHTML=h+'</tbody></table>';
 }
 
+/* ---------- spending by ministry (2027 proposal only) ---------- */
+const MTOT=MIN.rows.reduce((a,r)=>a+r[5],0);          /* thousand kr */
+const FT_LBL=["Folketrygden","National Insurance Scheme"];
+const depLbl=id=>id==="FT"?FT_LBL:MIN.dept[id];
+function deptTree(lens){
+  const sep=(lens||S.depLens)==="sep", tree={};
+  MIN.rows.forEach(([f,ft,k,kap,kn,v])=>{
+    const id=(sep&&ft)?"FT":String(f);
+    const d=tree[id]||(tree[id]={id,tot:0,kats:{}});
+    d.tot+=v;
+    const kk=d.kats[k]||(d.kats[k]={k,tot:0,chs:[]});
+    kk.tot+=v; kk.chs.push({kap,kn,v});
+  });
+  return tree;
+}
+/* value text in the chosen measure; vk is thousand kr */
+function mtxt(vk){
+  const g=vk/1e6;
+  if(S.unit==="pct"){ const p=vk/MTOT*100; return nf(p,p<1?2:1)+" %"; }
+  if(S.unit==="cap") return ni(g*1e9/POP)+" kr";
+  return nf(g,g<1?2:1);
+}
+function mrow(cls,label,sub,vk,w,share,attrs){
+  return `<div class="br ${cls}"${attrs||""}><div class="lbl">${label}<em>${sub}</em></div>
+    <div class="track"><span class="fill" style="width:${Math.min(100,Math.max(w,0.5)).toFixed(1)}%"></span></div>
+    <div class="val">${mtxt(vk)}${share==null?"":`<span class="sh">${nf(share,share<1?2:1)} % of ministry</span>`}</div></div>`;
+}
+function renderDept(){
+  const tree=deptTree(), deps=Object.values(tree).sort((a,b)=>b.tot-a.tot), max=deps[0].tot;
+  let h="";
+  deps.forEach(d=>{
+    const key="d:"+d.id, open=!!S.depOpen[key], l=depLbl(d.id);
+    h+=mrow("dep",`<span class="car" aria-hidden="true">▸</span>${l[0]}`,l[1],d.tot,d.tot/max*100,null,
+      ` role="button" tabindex="0" aria-expanded="${open}" data-k="${key}"`);
+    if(!open) return;
+    Object.values(d.kats).sort((a,b)=>b.tot-a.tot).forEach(k=>{
+      const kk="k:"+d.id+":"+k.k, ko=!!S.depOpen[kk], kt=MIN.kat[k.k];
+      h+=mrow("sub k1 dep",`<span class="car" aria-hidden="true">▸</span>${kt[0]}`,kt[1]+" · "+k.chs.length+(k.chs.length===1?" chapter":" chapters"),
+        k.tot,k.tot/d.tot*100,k.tot/d.tot*100,` role="button" tabindex="0" aria-expanded="${ko}" data-k="${kk}"`);
+      if(!ko) return;
+      k.chs.sort((a,b)=>b.v-a.v).forEach(c=>{
+        h+=mrow("sub k2",c.kn,"kap. "+c.kap,c.v,c.v/d.tot*100,c.v/d.tot*100);
+      });
+    });
+  });
+  document.getElementById("depList").innerHTML=h;
+  const all=deps.every(d=>S.depOpen["d:"+d.id]);
+  const b=document.getElementById("depAll");
+  b.setAttribute("aria-expanded",String(all));
+  b.textContent=all?"Close all ministries ↑":"Open all ministries ↓";
+}
+function renderDeptText(){
+  const t=Object.values(deptTree("sep")).sort((a,b)=>b.tot-a.tot);
+  const ft=t.find(x=>x.id==="FT"), mins=t.filter(x=>x.id!=="FT").slice(0,3);
+  const g=v=>nf(v/1e6,1), pc=v=>nf(v/MTOT*100,0);
+  const top3=mins.reduce((a,x)=>a+x.tot,0);
+  document.getElementById("depProse").innerHTML=
+    `Counting folketrygden on its own (${g(ft.tot)} mrd., ${pc(ft.tot)} % of spending), three ministries stand out: `+
+    (m=>`${m[0]}, ${m[1]} and ${m[2]}`)(mins.map(x=>`${MIN.dept[x.id][0]} (${g(x.tot)} mrd.)`))+
+    `. Together with folketrygden they account for ${pc(ft.tot+top3)} % of the budget. Open a ministry to see its programme categories and, under each, the budget chapters (<em>kapitler</em>) they are made of.`;
+  const ftBy={}; MIN.rows.forEach(r=>{ if(r[1]) ftBy[r[0]]=(ftBy[r[0]]||0)+r[5]; });
+  const parts=Object.entries(ftBy).sort((a,b)=>b[1]-a[1]).map(([f,v])=>`${MIN.dept[f][0].replace("departementet","dep.")} ${nf(v/1e6,1)}`);
+  document.getElementById("dlNote").textContent=S.depLens==="sep"
+    ? "Folketrygden’s benefits are pulled out as their own block, as in the chart above; the ministries show only what they run themselves. Figures are the 2027 proposal — the year slider does not move this section."
+    : "Each ministry carries the folketrygden benefits it is responsible for (mrd. kr: "+parts.join(" · ")+"). Figures are the 2027 proposal — the year slider does not move this section.";
+  document.getElementById("depRecon").innerHTML=
+    `Source: the Gul bok data file, which lists ${nf(MIN.gross/1e6,1)} mrd. of appropriations under chapters 1–2999. Removing the transfer to the Government Pension Fund Global (${nf(MIN.spu/1e6,1)}), the state’s petroleum investments (${nf(MIN.petro/1e6,1)}) and loan transactions, posts 90–99 (${nf(MIN.loans/1e6,1)}) leaves ${nf(MTOT/1e6,1)} mrd. — the spending total used throughout this page. The ministries’ own tables in the Gul bok include loan transactions, so their totals are larger (for example Kommunal- og distriktsdepartementet 330,4 mrd. there, against ${nf(deptTree("min")["5"].tot/1e6,1)} here). Chapter names are the Gul bok’s own.`;
+}
+function deptTable(){
+  const own={}, ftv={};
+  MIN.rows.forEach(r=>{ const o=r[1]?ftv:own; o[r[0]]=(o[r[0]]||0)+r[5]; });
+  const ids=Object.keys(MIN.dept).sort((a,b)=>((own[b]||0)+(ftv[b]||0))-((own[a]||0)+(ftv[a]||0)));
+  let h=`<table><thead><tr><th>Ministry</th><th>Own spending</th><th>Folketrygden benefits it runs</th><th>Total</th></tr></thead><tbody>`;
+  let a=0,b=0;
+  ids.forEach(id=>{ const x=own[id]||0, y=ftv[id]||0; a+=x; b+=y;
+    h+=`<tr><td>${MIN.dept[id][0]}</td><td>${nf(x/1e6,1)}</td><td>${y?nf(y/1e6,1):"–"}</td><td>${nf((x+y)/1e6,1)}</td></tr>`; });
+  h+=`<tr class="sum"><td>Total, excl. petroleum and loan transactions</td><td>${nf(a/1e6,1)}</td><td>${nf(b/1e6,1)}</td><td>${nf((a+b)/1e6,1)}</td></tr></tbody></table>`;
+  document.getElementById("tDepM").innerHTML=h;
+}
+
 /* ---------- orchestration ---------- */
 function renderDynamic(){
   hint(); renderTiles(); renderHero();
   renderList(document.getElementById("revList"),REV,REV_TOT,null);
   renderList(document.getElementById("expList"),EXP,EXP_TOT,{ftSub:true});
-  renderSM();
+  renderSM(); renderDept();
 }
 function init(){
-  renderGap(); renderOil(); renderExcise(); renderFC(); renderTables(); renderDynamic();
+  renderGap(); renderOil(); renderExcise(); renderFC(); renderTables(); deptTable(); renderDeptText(); renderDynamic();
 
   document.getElementById("yr").addEventListener("input",e=>{
     S.year=+e.target.value; document.getElementById("yrout").textContent=S.year; renderDynamic();
@@ -1022,6 +1504,19 @@ function init(){
     S.ftOpen=!S.ftOpen; e.target.setAttribute("aria-expanded",String(S.ftOpen));
     e.target.textContent=S.ftOpen?"Hide the benefit breakdown ↑":"Break folketrygden into its benefits ↓";
     renderList(document.getElementById("expList"),EXP,EXP_TOT,{ftSub:true});
+  });
+  const dl=document.getElementById("depList");
+  const flip=el=>{ const k=el.getAttribute("data-k"); if(!k) return; S.depOpen[k]=!S.depOpen[k]; renderDept(); const n=document.querySelector('#depList [data-k="'+k+'"]'); if(n) n.focus({preventScroll:true}); };
+  dl.addEventListener("click",e=>{ const el=e.target.closest("[data-k]"); if(el) flip(el); });
+  dl.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ const el=e.target.closest("[data-k]"); if(el){ e.preventDefault(); flip(el); } } });
+  const setLens=l=>{ S.depLens=l; S.depOpen={}; press(["dl-sep","dl-min"],l==="sep"?"dl-sep":"dl-min"); renderDeptText(); renderDept(); };
+  document.getElementById("dl-sep").addEventListener("click",()=>setLens("sep"));
+  document.getElementById("dl-min").addEventListener("click",()=>setLens("min"));
+  document.getElementById("depAll").addEventListener("click",()=>{
+    const ds=Object.keys(deptTree()); const all=ds.every(id=>S.depOpen["d:"+id]);
+    ds.forEach(id=>{ S.depOpen["d:"+id]=!all; });
+    if(all) Object.keys(S.depOpen).forEach(k=>{ if(k[0]==="k") delete S.depOpen[k]; });
+    renderDept();
   });
   document.getElementById("sm-exp").addEventListener("click",()=>{S.smSide="exp"; press(["sm-exp","sm-rev"],"sm-exp"); renderSM();});
   document.getElementById("sm-rev").addEventListener("click",()=>{S.smSide="rev"; press(["sm-exp","sm-rev"],"sm-rev"); renderSM();});
