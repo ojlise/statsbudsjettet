@@ -273,7 +273,7 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
     <p class="prose lede">Norway plans to spend <strong>2&nbsp;287 billion kroner</strong> outside the petroleum sector in 2027 and to collect <strong>1&nbsp;725 billion</strong> in mainland revenue. The missing <strong>562 billion</strong> — about one krone in four — is transferred in from the oil fund. This page takes the Ministry of Finance's own tables and shows where every krone comes from, where it goes, and how the mix has moved since 2021.</p>
     <div class="meta">
       <span><b>Unit</b> mrd. kroner (billion NOK), current prices</span>
-      <span><b>Basis</b> saldert budsjett 2021–2025, Prop. 1 S forslag 2026 and 2027</span>
+      <span><b>Basis</b> saldert budsjett 2021–2026, Prop. 1 S forslag 2027</span>
       <span><b>Scope</b> excl. petroleum activity &amp; loan transactions</span>
       <span><b>Retrieved</b> 8 Oct 2026</span>
     </div>
@@ -456,7 +456,7 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
     <div class="notes">
       <div class="note">
         <h3>Demography is a floor, not a trend</h3>
-        <p>Old-age pensions reach 378,2 mrd. in 2027, up from 352,1 in the 2026 proposal. Disability benefits (150,3) and work assessment allowance (59,8) keep growing alongside them. This part of the budget is locked in by population, not by policy, and it absorbs most of the future room for manoeuvre.</p>
+        <p>Old-age pensions reach 378,2 mrd. in 2027, up from 352,1 in the adopted 2026 budget. Disability benefits (150,3) and work assessment allowance (59,8) keep growing alongside them. This part of the budget is locked in by population, not by policy, and it absorbs most of the future room for manoeuvre.</p>
       </div>
       <div class="note">
         <h3>Defence is on a plan, not a curve</h3>
@@ -502,6 +502,7 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
 
     <details class="pr"><summary>Sources</summary><div class="dbody">
       <ul class="src">
+        <li><a href="https://www.regjeringen.no/contentassets/a3f3b731f8fe42408c1eedb031003a98/no/pdfs/prp202620270001guldddpdfs.pdf">Prop. 1 S (2026–2027) Statsbudsjettet (Gul bok)</a>, Finansdepartementet — main figures (Tabell 2.1) and revenue and spending excl. petroleum (Tabell 2.3), adopted 2026 and proposed 2027.</li>
         <li><a href="https://www.regjeringen.no/no/statsbudsjett/2027/statsbudsjettet-2027-statens-inntekter-og-utgifter/id3173250/">Statsbudsjettet 2027: Statens inntekter og utgifter</a>, Finansdepartementet — 2027 proposal: revenue and spending excl. petroleum by line, folketrygden, petroleum totals.</li>
         <li><a href="https://www.regjeringen.no/en/whats-new/key-figures-in-the-national-budget-for-2027/id3174610/">Key figures in the National Budget for 2027</a> — structural deficit, fund share and value, underlying spending growth, 2026 estimates.</li>
         <li><a href="https://www.regjeringen.no/contentassets/a49e820763894e44909382324d2bd7bc/nn-no/pdfs/stm202520260003000dddpdfs.pdf">Meld. St. 3 (2025–2026) Statsrekneskapen 2025</a> — 2025 accounts.</li>
@@ -519,7 +520,7 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
 </section>
 
 <footer><div class="wrap">
-  Composition and trend charts use the budget basis (saldert 2021–2025; 2026 and 2027 as proposed, because the adopted 2026 breakdown by area is not yet included) so years are comparable; the accounts series is shown separately and labelled. Per-person figures divide by an assumed population of 5,6 million. Real-terms figures apply the price growth rate in the control bar uniformly to all lines — a simplification, since the Ministry's own deflator differs by spending type. Norwegian decimal notation throughout: 452,2 means four hundred fifty-two point two.
+  Composition and trend charts use a consistent adopted-budget basis (saldert 2021–2026, proposal 2027) so years are comparable; the accounts series is shown separately and labelled. Per-person figures divide by an assumed population of 5,6 million. Real-terms figures apply the price growth rate in the control bar uniformly to all lines — a simplification, since the Ministry's own deflator differs by spending type. Norwegian decimal notation throughout: 452,2 means four hundred fifty-two point two.
 </div></footer>
 
 <script>
@@ -529,46 +530,46 @@ const LAST=YRS[YRS.length-1], NY=YRS.length-1;   /* latest year and number of ye
 const POP=5.6e6;
 
 const REV={
- "Skatt på formue og inntekt":{en:"Income & wealth tax",v:[257.0,322.1,409.6,418.5,434.9,514.8,493.2]},
+ "Skatt på formue og inntekt":{en:"Income & wealth tax",v:[257.0,322.1,409.6,418.5,434.9,514.9,493.2]},
  "Arbeidsgiveravgift og trygdeavgift":{en:"Payroll & social security contributions",v:[358.5,378.0,421.2,455.5,466.6,514.2,510.3]},
  "Merverdiavgift":{en:"Value added tax",v:[324.6,360.5,393.0,398.9,409.3,421.0,444.6]},
  "Renter og aksjeutbytte mv.":{en:"Interest & dividends",v:[26.7,39.0,63.9,72.6,87.5,83.9,91.9]},
- "Andre avgifter":{en:"Other excise duties",v:[44.0,51.1,75.0,51.9,54.2,59.3,58.4]},
- "Andre inntekter":{en:"Other revenue",v:[48.4,42.8,45.3,63.1,62.3,62.9,67.0]},
+ "Andre avgifter":{en:"Other excise duties",v:[44.0,51.1,75.0,51.9,54.2,57.7,58.4]},
+ "Andre inntekter":{en:"Other revenue",v:[48.4,42.8,45.3,63.1,62.3,67.2,67.0]},
  "Avgifter på tobakk og alkohol":{en:"Tobacco & alcohol duties",v:[19.6,22.8,22.5,24.3,24.4,24.0,24.8]},
  "Avgifter på motorvogner":{en:"Motor vehicle duties",v:[20.8,21.0,20.3,20.6,18.9,18.7,19.6]},
- "Elektrisitetsavgift":{en:"Electricity duty",v:[11.4,9.8,9.9,8.2,10.8,4.8,6.0]},
- "Inntekter fra statens forvaltningsbedrifter":{en:"State enterprises",v:[3.9,4.1,3.8,13.2,4.6,5.2,5.7]},
+ "Elektrisitetsavgift":{en:"Electricity duty",v:[11.4,9.8,9.9,8.2,10.8,6.2,6.0]},
+ "Inntekter fra statens forvaltningsbedrifter":{en:"State enterprises",v:[3.9,4.1,3.8,13.2,4.6,6.0,5.7]},
  "Tollinntekter":{en:"Customs duties",v:[3.4,3.7,4.3,3.8,3.9,3.6,3.5]}
 };
-const REV_TOT=[1118.3,1255.0,1468.6,1530.5,1577.4,1712.2,1725.1];
+const REV_TOT=[1118.3,1255.0,1468.6,1530.5,1577.4,1717.2,1725.1];
 
 const EXP={
- "Folketrygden":{en:"National Insurance Scheme",v:[529.1,553.9,589.7,651.7,702.2,744.0,794.1]},
- "Rammetilskudd til kommuner og fylkeskommuner":{en:"Block grants to municipalities & counties",v:[186.7,190.0,205.6,224.8,245.4,259.0,277.6]},
- "Regionale helseforetak":{en:"Regional health trusts",v:[178.7,182.4,200.0,215.2,228.6,237.1,250.4]},
+ "Folketrygden":{en:"National Insurance Scheme",v:[529.1,553.9,589.7,651.7,702.2,745.0,794.1]},
+ "Rammetilskudd til kommuner og fylkeskommuner":{en:"Block grants to municipalities & counties",v:[186.7,190.0,205.6,224.8,245.4,265.0,277.6]},
+ "Regionale helseforetak":{en:"Regional health trusts",v:[178.7,182.4,200.0,215.2,228.6,237.4,250.4]},
  "Forsvar":{en:"Defence",v:[64.8,69.1,75.8,90.8,125.0,179.8,191.7]},
- "Samferdsel":{en:"Transport",v:[82.8,81.1,83.0,91.3,95.5,98.1,99.9]},
+ "Samferdsel":{en:"Transport",v:[82.8,81.1,83.0,91.3,95.5,98.5,99.9]},
  "Høyere utdanning, forskning og fagskoler":{en:"Higher education & research",v:[53.7,55.1,57.1,61.8,61.7,65.0,68.6]},
  "Bistand":{en:"Development aid",v:[36.8,39.2,42.1,50.6,55.9,54.2,53.4]},
- "Politi og påtalemyndighet":{en:"Police & prosecution",v:[22.6,24.1,25.2,27.2,30.5,31.9,33.6]},
- "Barnetrygd og kontantstøtte":{en:"Child benefit & cash-for-care",v:[18.9,19.5,21.4,26.6,29.4,30.4,30.8]},
+ "Politi og påtalemyndighet":{en:"Police & prosecution",v:[22.6,24.1,25.2,27.2,30.5,32.0,33.6]},
+ "Barnetrygd og kontantstøtte":{en:"Child benefit & cash-for-care",v:[18.9,19.5,21.4,26.6,29.4,31.0,30.8]},
  "Jordbruksavtalen":{en:"Agricultural agreement",v:[16.9,18.5,24.1,26.7,28.9,30.1,33.4]},
  "Renter på statsgjeld":{en:"Interest on state debt",v:[10.2,10.3,11.5,12.5,16.4,20.1,24.4]},
- "Andre utgifter":{en:"All other spending",v:[313.8,312.0,390.1,387.8,403.6,414.7,429.0]}
+ "Andre utgifter":{en:"All other spending",v:[313.8,312.0,390.1,387.8,403.6,416.0,429.0]}
 };
-const EXP_TOT=[1514.9,1555.1,1725.5,1867.0,2023.2,2164.5,2286.8];
+const EXP_TOT=[1514.9,1555.1,1725.5,1867.0,2023.2,2174.1,2286.8];
 /* published oljekorrigert underskudd on the same basis (Tabell 2.2 of each proposition).
-   Composition basis: saldert 2021-2025; 2026 and 2027 as proposed (Prop. 1 S 2025-26 and 2026-27). */
-const DEF_PUB=[396.6,300.1,256.9,336.5,445.8,452.2,561.7];
+   Composition basis: saldert 2021-2026 (2026 from Prop. 1 S 2026-27, Tabell 2.3); 2027 proposal. */
+const DEF_PUB=[396.6,300.1,256.9,336.5,445.8,456.8,561.7];
 
 const FT={
  "Alderspensjon":{en:"Old-age pension",v:[253.3,269.2,289.6,316.7,335.9,352.1,378.2]},
- "Uføretrygd":{en:"Disability benefit",v:[null,null,118.5,126.1,132.7,140.7,150.3]},
+ "Uføretrygd":{en:"Disability benefit",v:[null,null,118.5,126.1,132.7,140.9,150.3]},
  "Sykepenger":{en:"Sickness benefit",v:[46.4,47.9,51.8,62.2,71.3,74.9,80.6]},
  "Arbeidsavklaringspenger":{en:"Work assessment allowance",v:[null,null,36.6,44.8,50.8,56.6,59.8]},
- "Helsetjenester":{en:"Health services",v:[35.6,37.3,40.5,43.3,46.2,47.9,48.8]},
- "Foreldrepenger":{en:"Parental benefit",v:[21.6,23.2,26.8,26.3,29.5,31.4,36.1]},
+ "Helsetjenester":{en:"Health services",v:[35.6,37.3,40.5,43.3,46.2,48.6,48.8]},
+ "Foreldrepenger":{en:"Parental benefit",v:[21.6,23.2,26.8,26.3,29.5,31.5,36.1]},
  "Arbeidsliv (dagpenger mv.)":{en:"Unemployment benefit etc.",v:[20.6,13.9,10.2,13.8,15.4,18.1,18.9]},
  "Øvrige sosiale formål":{en:"Other social purposes",v:[null,null,15.7,18.4,20.5,22.3,21.4]}
 };
@@ -579,7 +580,7 @@ const ACC={y:[2020,2021,2022,2023,2024,2025,2026,2027],
  exp:[1524.9,1559.4,1637.6,1776.4,1904.8,2073.1,2174.1,2286.8],
  def:[370.5,369.0,282.7,290.5,331.7,475.7,456.8,561.7],
  tr:[417.4,390.1,309.9,286.2,346.5,480.2,456.8,561.7],
- oil:[106.8,287.5,1285.2,978.1,702.2,664.0,521.5,568.0],
+ oil:[106.8,287.5,1285.2,978.1,702.2,664.0,521.5,568.4],
  tax:[35.4,91.8,720.9,623.2,420.3,382.9,302.7,null],
  sdoe:[84.0,209.9,557.4,306.9,267.8,275.2,229.1,null],
  eq:[15.0,10.5,35.3,78.3,62.6,34.7,25.8,null]};
@@ -649,7 +650,7 @@ const unitLbl=()=>S.unit==="pct"?"% of budget":S.unit==="cap"?"kr per person":(S
 function press(ids,active){ids.forEach(id=>document.getElementById(id).setAttribute("aria-pressed",String(id===active)));}
 function hint(){
   const bits=[];
-  bits.push(S.year===LAST?"Showing the "+LAST+" proposal.":S.year===2026?"Showing 2026 as proposed in October 2025 (the adopted breakdown by area is not yet included).":"Showing the budget as adopted for "+S.year+".");
+  bits.push(S.year===LAST?"Showing the "+LAST+" proposal.":"Showing the budget as adopted for "+S.year+".");
   if(S.unit==="pct") bits.push("Shares of total non-petroleum revenue or spending.");
   else if(S.unit==="cap") bits.push("Divided by an assumed population of 5,6 million.");
   if(S.real&&S.unit!=="pct") bits.push("Deflated to "+LAST+"-kroner at "+nf(S.rate,1)+" % a year — your assumption, not an official deflator.");
@@ -697,7 +698,7 @@ function renderHero(){
   const inRows=heroRows(REV,HERO_IN_KEYS,REV_TOT[i],i);
   inRows.push(["Overføring fra Oljefondet",DEF_PUB[i],"Transfer from the oil fund"]);
   const outRows=heroRows(EXP,HERO_OUT_KEYS,T,i);
-  const lbl=" · "+(S.year>=2026?S.year+" proposal":S.year+" adopted");
+  const lbl=" · "+(S.year===LAST?S.year+" proposal":S.year+" adopted");
   document.getElementById("inYr").textContent=lbl;
   document.getElementById("outYr").textContent=lbl;
   const build=(rows,stripId,keysId,totId,fundIdx)=>{
