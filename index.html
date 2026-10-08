@@ -26,6 +26,7 @@ img{max-width:100%}
   --up:#006300; --down:#c0392f;
   --r1:#0d366b; --r2:#184f95; --r3:#256abf; --r4:#2a78d6; --r5:#3987e5; --r6:#5598e7; --r7:#86b6ef;
   --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a;
+  --g1:#2a78d6; --g2:#eb6834; --g3:#1baf7a; --g4:#eda100; --g5:#e87ba4; --g6:#008300; --g7:#4a3aa7; --g8:#e34948; --g9:#00a3c4; --g10:#8a6d3b; --g11:#c35dcf; --g12:#7c8a99;
   --shadow:0 1px 2px rgba(22,25,28,.05), 0 8px 24px -16px rgba(22,25,28,.22);
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
@@ -37,6 +38,7 @@ img{max-width:100%}
   --up:#0ca30c; --down:#e26a60;
   --r1:#cde2fb; --r2:#b7d3f6; --r3:#9ec5f4; --r4:#86b6ef; --r5:#6da7ec; --r6:#3987e5; --r7:#256abf;
   --s1:#3987e5; --s2:#d95926; --s3:#199e70;
+  --g1:#3987e5; --g2:#d95926; --g3:#199e70; --g4:#c98500; --g5:#d55181; --g6:#2aa52a; --g7:#9085e9; --g8:#e66767; --g9:#26b5d4; --g10:#b08a52; --g11:#d07ad9; --g12:#9aa5b1;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -18px rgba(0,0,0,.7);
 }}
 :root[data-theme="dark"]{
@@ -48,6 +50,7 @@ img{max-width:100%}
   --up:#0ca30c; --down:#e26a60;
   --r1:#cde2fb; --r2:#b7d3f6; --r3:#9ec5f4; --r4:#86b6ef; --r5:#6da7ec; --r6:#3987e5; --r7:#256abf;
   --s1:#3987e5; --s2:#d95926; --s3:#199e70;
+  --g1:#3987e5; --g2:#d95926; --g3:#199e70; --g4:#c98500; --g5:#d55181; --g6:#2aa52a; --g7:#9085e9; --g8:#e66767; --g9:#26b5d4; --g10:#b08a52; --g11:#d07ad9; --g12:#9aa5b1;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -18px rgba(0,0,0,.7);
 }
 *{box-sizing:border-box}
@@ -177,6 +180,18 @@ svg{display:block; width:100%; height:auto; overflow:visible}
 .tip b{font-variant-numeric:tabular-nums}
 
 /* ---------- small multiples ---------- */
+.gl-wrap{margin-top:4px}
+.gl-legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:.8125rem}
+.gl-legend button{appearance:none;border:0;background:none;padding:2px 0;cursor:pointer;color:var(--ink-2);display:flex;align-items:center;gap:7px;font:inherit}
+.gl-legend button i{width:16px;height:3px;border-radius:2px;flex:none}
+.gl-legend button[aria-pressed="false"]{opacity:.35}
+.gl-rank{display:none;margin-top:10px;border-top:1px solid var(--hair);padding-top:8px}
+.gl-rank div{display:flex;justify-content:space-between;gap:10px;font-size:.82rem;padding:3px 0}
+.gl-rank span.l{display:flex;align-items:center;gap:7px;min-width:0}
+.gl-rank i{width:10px;height:10px;border-radius:2px;flex:none}
+.gl-rank b{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.gl-rank .tot{border-top:1px dashed var(--base);margin-top:3px;padding-top:5px}
+@media (max-width:700px){.gl-end{display:none}.gl-rank{display:block}}
 .smgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(228px,1fr)); gap:10px}
 .sm{background:var(--surface); padding:14px 15px 12px; display:flex; flex-direction:column; gap:9px;
   border:1px solid var(--hair); border-radius:10px}
@@ -406,13 +421,24 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
       <h2>Six years of change</h2>
       <p class="prose">Non-petroleum spending rises <strong>51,0 %</strong> in six years, 7,1 % a year. Mainland revenue rises slightly faster — 54,3 % — because 2021 was a pandemic-depressed tax year. Underneath those totals the composition moved sharply: defence nearly tripled, the electricity duty roughly halved, and interest on the state debt more than doubled.</p>
     </div>
-    <div class="ctl" style="margin-bottom:16px">
+    <div class="ctl" style="margin-bottom:16px;flex-wrap:wrap;gap:10px">
       <div class="seg" role="group" aria-label="Which side">
         <button id="sm-exp" aria-pressed="true">Spending areas</button>
         <button id="sm-rev" aria-pressed="false">Revenue sources</button>
       </div>
+      <div class="seg" role="group" aria-label="View">
+        <button id="sv-cards" aria-pressed="true">Cards</button>
+        <button id="sv-lines" aria-pressed="false">Growth lines</button>
+      </div>
     </div>
     <div class="smgrid" id="smGrid"></div>
+    <div class="chart gl-wrap" id="glBox" hidden>
+      <div class="ctitle" id="glTitle"></div>
+      <div class="csub" id="glSub"></div>
+      <div class="svgbox" id="glSvg"></div>
+      <div class="gl-legend" id="glLegend"></div>
+      <div class="gl-rank" id="glRank"></div>
+    </div>
     <p class="hintline" style="padding-top:12px" id="smNote"></p>
   </div>
 </section>
@@ -620,7 +646,7 @@ const DEP={y:[2020,2021,2022,2023,2024,2025,2026], d:{
 }};
 
 /* ---------- state ---------- */
-const S={year:LAST, unit:"mrd", real:false, rate:2.7, ftOpen:false, smSide:"exp"};
+const S={year:LAST, unit:"mrd", real:false, rate:2.7, ftOpen:false, smSide:"exp", smLines:false};
 const nf=(v,d=1)=>v.toLocaleString('nb-NO',{minimumFractionDigits:d,maximumFractionDigits:d});
 const ni=v=>Math.round(v).toLocaleString('nb-NO');
 const yi=y=>YRS.indexOf(y);
@@ -781,7 +807,65 @@ function renderSM(){
         <div class="chg d ${cls}">${sign}${nf(Math.abs(r.pct),0)} %<span class="d ${rcls}">${rsign}${nf(Math.abs(real),1)} %/yr real</span></div></div>
       ${sparkline(r.v)}</div>`;
   }).join("");
-  document.getElementById("smNote").textContent="Sorted by absolute change. Sparklines run 2021→"+LAST+" on each card's own scale. Real growth subtracts the "+nf(S.rate,1)+" % price assumption from the nominal compound rate.";
+  if(S.smLines) renderGL();
+  document.getElementById("smNote").textContent=S.smLines?"Each line is the item's cumulative change since 2021. Click a legend entry to hide or show it; the Prices control above switches between nominal and real terms.":"Sorted by absolute change. Sparklines run 2021→"+LAST+" on each card's own scale. Real growth subtracts the "+nf(S.rate,1)+" % price assumption from the nominal compound rate.";
+}
+
+
+/* ---------- growth lines: cumulative % change since 2021, one line per item ---------- */
+const GL_OFF={exp:{},rev:{}};
+function renderGL(){
+  const side=S.smSide, src=side==="exp"?EXP:REV, tots=side==="exp"?EXP_TOT:REV_TOT, off=GL_OFF[side];
+  const keys=Object.keys(src);
+  const col=k=>"var(--g"+(keys.indexOf(k)+1)+")";
+  const val=(v,j)=>S.real?v*Math.pow(1+S.rate/100,LAST-YRS[j]):v;          /* constant LAST-kroner if real */
+  const g=v=>v.map((x,j)=>(val(x,j)/val(v[0],0)-1)*100);
+  const series=keys.map(k=>({k,en:src[k].en,c:col(k),g:g(src[k].v)}));
+  const act=series.filter(s=>!off[s.k]);
+  const tot={k:side==="exp"?"Total spending":"Total revenue",en:"",c:"var(--ink)",g:g(tots),dash:true};
+  const all=act.concat([tot]);
+  document.getElementById("glTitle").textContent=(side==="exp"?"Spending areas":"Revenue sources")+" — % change since 2021";
+  document.getElementById("glSub").textContent=(S.real?"real terms, "+LAST+"-kroner at "+nf(S.rate,1)+" %/yr":"nominal kroner")+" · dashed line = total · adopted budgets 2021–2026, "+LAST+" proposal";
+  const W=880,H=440,L=50,R=232,T=14,B=34, n=YRS.length;
+  let lo=Math.min(0,...all.flatMap(a=>a.g)), hi=Math.max(0,...all.flatMap(a=>a.g));
+  const raw=(hi-lo)/7, mag=Math.pow(10,Math.floor(Math.log10(raw))), q=raw/mag;
+  const step=(q<=1?1:q<=2?2:q<=2.5?2.5:q<=5?5:10)*mag;
+  lo=Math.floor(lo/step)*step; hi=Math.ceil(hi/step)*step;
+  const X=j=>L+(W-L-R)*j/(n-1), Y=v=>T+(H-T-B)*(1-(v-lo)/(hi-lo));
+  const sgn=v=>(v>0?"+":v<0?"−":"")+nf(Math.abs(v),0)+" %";
+  let o='';
+  for(let v=lo; v<=hi+step*1e-6; v+=step){
+    const z=Math.abs(v)<step*1e-6;
+    o+=`<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(${z?'--base':'--grid'})" stroke-width="${z?1.5:1}"/>
+        <text x="${L-8}" y="${Y(v)+4}" text-anchor="end" font-size="11" fill="var(--muted)">${sgn(v)}</text>`;
+  }
+  YRS.forEach((y,j)=>{o+=`<text x="${X(j)}" y="${H-B+19}" text-anchor="middle" font-size="11" fill="var(--muted)">${y}</text>`;});
+  all.forEach(a=>{
+    const d=a.g.map((v,j)=>(j?'L':'M')+X(j).toFixed(1)+' '+Y(v).toFixed(1)).join(' ');
+    o+=`<path d="${d}" fill="none" stroke="${a.c}" stroke-width="${a.dash?1.8:2.3}" ${a.dash?'stroke-dasharray="6 5"':''} stroke-linejoin="round" stroke-linecap="round"/>`;
+    if(!a.dash) a.g.forEach((v,j)=>{o+=`<circle cx="${X(j).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="3" fill="${a.c}"><title>${a.k} ${YRS[j]}: ${sgn(v)} vs 2021</title></circle>`;});
+  });
+  /* end labels, nudged apart so they never collide */
+  const lab=all.map(a=>({a,y:Y(a.g[n-1])})).sort((p,q)=>p.y-q.y), gap=14;
+  for(let i=1;i<lab.length;i++) if(lab[i].y<lab[i-1].y+gap) lab[i].y=lab[i-1].y+gap;
+  const over=lab.length?lab[lab.length-1].y-(H-B):0; if(over>0) lab.forEach(l=>l.y-=over);
+  for(let i=1;i<lab.length;i++) if(lab[i].y<lab[i-1].y+gap) lab[i].y=lab[i-1].y+gap;
+  lab.forEach(l=>{const v=l.a.g[n-1], name=l.a.k.length>30?l.a.k.slice(0,29)+'…':l.a.k;
+    o+=`<text class="gl-end" x="${W-R+10}" y="${(l.y+4).toFixed(1)}" font-size="11.5" font-weight="${l.a.dash?500:600}" fill="${l.a.c}">${sgn(v)}  ${name}</text>`;});
+  document.getElementById("glSvg").innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${side==='exp'?'Spending':'Revenue'} by item, percent change since 2021">${o}</svg>`;
+  /* legend: click to hide/show a line */
+  const lg=document.getElementById("glLegend");
+  lg.innerHTML=series.map(s=>`<button data-k="${s.k}" aria-pressed="${!off[s.k]}" title="${s.en}"><i style="background:${s.c}"></i>${s.k}</button>`).join("");
+  lg.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{off[b.dataset.k]=!off[b.dataset.k]; renderGL();}));
+  /* ranked list (shown on narrow screens instead of end labels) */
+  document.getElementById("glRank").innerHTML='<div style="color:var(--muted);font-size:.75rem">2021 → '+LAST+', ranked</div>'+
+    all.slice().sort((p,q)=>q.g[n-1]-p.g[n-1]).map(a=>`<div class="${a.dash?'tot':''}"><span class="l"><i style="background:${a.c}"></i>${a.k}</span><b>${sgn(a.g[n-1])}</b></div>`).join("");
+}
+function setSV(lines){
+  S.smLines=lines; press(["sv-cards","sv-lines"], lines?"sv-lines":"sv-cards");
+  document.getElementById("smGrid").hidden=lines;
+  document.getElementById("glBox").hidden=!lines;
+  renderSM();
 }
 
 /* ---------- gap chart ---------- */
@@ -941,6 +1025,8 @@ function init(){
   });
   document.getElementById("sm-exp").addEventListener("click",()=>{S.smSide="exp"; press(["sm-exp","sm-rev"],"sm-exp"); renderSM();});
   document.getElementById("sm-rev").addEventListener("click",()=>{S.smSide="rev"; press(["sm-exp","sm-rev"],"sm-rev"); renderSM();});
+  document.getElementById("sv-cards").addEventListener("click",()=>setSV(false));
+  document.getElementById("sv-lines").addEventListener("click",()=>setSV(true));
 }
 
 /* ---------- theme (standalone: no host theme stamp) ---------- */
