@@ -434,9 +434,8 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
       <h2>Where the money goes</h2>
       <p class="prose">Four blocks account for two-thirds of the budget: the National Insurance Scheme (<em>folketrygden</em>) at 35 %, block grants to municipalities and counties at 12 %, the regional health trusts at 11 %, and defence — 8,4 % in 2027, up from 6,2 % in the 2025 budget.</p>
     </div>
-    <p class="hintline" style="padding-top:2px">Click a row to see which ministries the money goes out through (2027 proposal).</p>
+    <p class="hintline" style="padding-top:2px">Click a row to see what it is made up of: the benefits for Folketrygden, the ministries it goes out through for the rest (2027 proposal).</p>
     <div class="barlist" id="expList"></div>
-    <button class="toggleft" id="ftToggle" aria-expanded="false">Break folketrygden into its benefits ↓</button>
   </div>
 </section>
 
@@ -1279,7 +1278,7 @@ const MIN={ /* Gul bok 2027 tallgrunnlag: kr in thousands. rows = expenditure ch
  ]};
 
 /* ---------- state ---------- */
-const S={year:LAST, unit:"mrd", real:false, rate:2.7, ftOpen:false, smSide:"exp", smLines:false, depOpen:{}, lsOpen:{}};
+const S={year:LAST, unit:"mrd", real:false, rate:2.7, smSide:"exp", smLines:false, depOpen:{}, lsOpen:{}};
 const nf=(v,d=1)=>v.toLocaleString('nb-NO',{minimumFractionDigits:d,maximumFractionDigits:d});
 const ni=v=>Math.round(v).toLocaleString('nb-NO');
 const yi=y=>YRS.indexOf(y);
@@ -1376,6 +1375,12 @@ function renderHero(){
 }
 
 /* ---------- bar lists ---------- */
+function ftRows(i,max,tot){
+  return Object.entries(FT).filter(([,o])=>o.v[i]!=null).sort((a,b)=>b[1].v[i]-a[1].v[i])
+    .map(([k,o])=>`<div class="br sub"><div class="lbl">${k}<em>${o.en}</em></div>
+      <div class="track"><span class="fill" style="width:${o.v[i]/max*100}%"></span></div>
+      <div class="val">${dtxt(o.v[i],S.year,tot)}</div></div>`).join("");
+}
 function renderList(el,data,tots,opts){
   const i=yi(S.year), tot=tots[i];
   const rows=Object.entries(data).filter(([,o])=>o.v[i]!=null)
@@ -1396,16 +1401,8 @@ function renderList(el,data,tots,opts){
     const idx=Object.keys(data).indexOf(k), lk=(opts.side==="exp"?"e:":"r:")+idx, open=!!S.lsOpen[lk];
     return {key:k, html:`<div class="br dep" role="button" tabindex="0" aria-expanded="${open}" data-lk="${lk}"><div class="lbl"><span class="car" aria-hidden="true">▸</span>${k}<em>${o.en}</em></div>
       <div class="track">${prev}<span class="fill" style="width:${Math.max(w,0.5)}%"></span></div>
-      <div class="val">${dtxt(cur,S.year,tot)}${chg}</div></div>`+(open?lineRows(opts.side,idx,w,cur):"")};
+      <div class="val">${dtxt(cur,S.year,tot)}${chg}</div></div>`+(open?(opts.side==="exp"&&k==="Folketrygden"?ftRows(i,max,tot):lineRows(opts.side,idx,w,cur)):"")};
   });
-  if(opts&&opts.ftSub&&S.ftOpen){
-    const sub=Object.entries(FT).filter(([,o])=>o.v[i]!=null).sort((a,b)=>b[1].v[i]-a[1].v[i]);
-    const subHtml=sub.map(([k,o])=>`<div class="br sub"><div class="lbl">${k}<em>${o.en}</em></div>
-      <div class="track"><span class="fill" style="width:${o.v[i]/max*100}%"></span></div>
-      <div class="val">${dtxt(o.v[i],S.year,tot)}</div></div>`).join("");
-    const at=parts.findIndex(p=>p.key==="Folketrygden");
-    if(at>-1) parts[at].html+=subHtml;
-  }
   el.innerHTML=parts.map(p=>p.html).join("");
 }
 
@@ -1790,7 +1787,7 @@ function renderSankey(){
 }
 
 /* ---------- orchestration ---------- */
-const EXP_OPTS={ftSub:true,side:"exp"}, REV_OPTS={side:"rev"};
+const EXP_OPTS={side:"exp"}, REV_OPTS={side:"rev"};
 function renderDynamic(){
   hint(); renderTiles(); renderHero();
   renderList(document.getElementById("revList"),REV,REV_TOT,REV_OPTS);
@@ -1811,11 +1808,6 @@ function init(){
   document.getElementById("p-real").addEventListener("click",()=>{S.real=true; press(["p-nom","p-real"],"p-real"); renderDynamic();});
   document.getElementById("rate").addEventListener("input",e=>{
     const v=parseFloat(e.target.value); if(!isNaN(v)&&v>=0&&v<=12){S.rate=v; renderDynamic();}
-  });
-  document.getElementById("ftToggle").addEventListener("click",e=>{
-    S.ftOpen=!S.ftOpen; e.target.setAttribute("aria-expanded",String(S.ftOpen));
-    e.target.textContent=S.ftOpen?"Hide the benefit breakdown ↑":"Break folketrygden into its benefits ↓";
-    renderList(document.getElementById("expList"),EXP,EXP_TOT,EXP_OPTS);
   });
   const dl=document.getElementById("depList");
   const flip=el=>{ const k=el.getAttribute("data-k"); if(!k) return; S.depOpen[k]=!S.depOpen[k]; renderDept(); const n=document.querySelector('#depList [data-k="'+k+'"]'); if(n) n.focus({preventScroll:true}); };
