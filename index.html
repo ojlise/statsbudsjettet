@@ -160,6 +160,14 @@ section.alt .br{background:var(--surface-2)}
 .d.pos{color:var(--up)} .d.neg{color:var(--down)}
 .br.sub{padding-left:30px} .br.sub .lbl{font-weight:400; color:var(--ink-2)}
 .br.sub .track .fill{background:var(--r6)}
+/* ---------- sankey ---------- */
+.skbox{overflow-x:auto; background:var(--surface); border:1px solid var(--hair); border-radius:11px; padding:10px 6px 4px}
+section.alt .skbox{background:var(--surface-2)}
+.skbox svg{display:block; width:100%; min-width:820px; height:auto}
+.skbox text{font-size:11.5px; fill:var(--ink)}
+.skbox .sv{font-weight:700; font-variant-numeric:tabular-nums}
+.skbox .sm{font-size:12px; font-weight:700}
+.skbox .sh2{font-size:10px; font-weight:600; letter-spacing:.12em; fill:var(--muted)}
 /* ---------- spending by ministry ---------- */
 .dgroup{display:grid; gap:1px; background:var(--hair)}
 .dgroup.open{border-left:3px solid var(--s1); margin-block:6px}
@@ -428,12 +436,25 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
     </div>
     <p class="hintline" style="padding-top:2px">Click a row to see which ministries the money goes out through (2027 proposal).</p>
     <div class="barlist" id="expList"></div>
-    <button class="toggleft" id="ftToggle" aria-expanded="false">Break folketrygden into its benefits ↓</button>
+  </div>
+</section>
+
+<!-- ============ 3a. FLOW ============ -->
+<section class="alt">
+  <div class="wrap">
+    <div class="shead">
+      <p class="eyebrow">Money flow · 2027 proposal</p>
+      <h2>From revenue to ministries</h2>
+      <p class="prose" id="skProse"></p>
+    </div>
+    <div class="skbox" id="skBox"></div>
+    <button class="toggleft" id="skAll" aria-expanded="false">Show every ministry ↓</button>
+    <p class="hintline" style="padding-top:12px">Ribbons run through the state’s pool: because no revenue is earmarked, the left and right sides are not linked one-to-one. Folketrygden benefits are counted under the ministries that run them.</p>
   </div>
 </section>
 
 <!-- ============ 3b. BY MINISTRY ============ -->
-<section class="alt">
+<section>
   <div class="wrap">
     <div class="shead">
       <p class="eyebrow">Spending by ministry · Gul bok</p>
@@ -448,7 +469,7 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
 </section>
 
 <!-- ============ 4. FIVE YEARS ============ -->
-<section>
+<section class="alt">
   <div class="wrap">
     <div class="shead">
       <p class="eyebrow">2021 → 2027</p>
@@ -478,7 +499,7 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
 </section>
 
 <!-- ============ 5. THE GAP ============ -->
-<section class="alt">
+<section>
   <div class="wrap">
     <div class="shead">
       <p class="eyebrow">The structural picture</p>
@@ -500,7 +521,7 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
 </section>
 
 <!-- ============ 6. FORECAST BASELINE ============ -->
-<section>
+<section class="alt">
   <div class="wrap">
     <div class="shead">
       <p class="eyebrow">Using this as a baseline</p>
@@ -531,7 +552,7 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
 </section>
 
 <!-- ============ 7. DATA ============ -->
-<section class="alt">
+<section>
   <div class="wrap">
     <div class="shead">
       <p class="eyebrow">Data &amp; method</p>
@@ -1257,7 +1278,7 @@ const MIN={ /* Gul bok 2027 tallgrunnlag: kr in thousands. rows = expenditure ch
  ]};
 
 /* ---------- state ---------- */
-const S={year:LAST, unit:"mrd", real:false, rate:2.7, ftOpen:false, smSide:"exp", smLines:false, depOpen:{}, lsOpen:{}};
+const S={year:LAST, unit:"mrd", real:false, rate:2.7, smSide:"exp", smLines:false, depOpen:{}, lsOpen:{}};
 const nf=(v,d=1)=>v.toLocaleString('nb-NO',{minimumFractionDigits:d,maximumFractionDigits:d});
 const ni=v=>Math.round(v).toLocaleString('nb-NO');
 const yi=y=>YRS.indexOf(y);
@@ -1376,14 +1397,6 @@ function renderList(el,data,tots,opts){
       <div class="track">${prev}<span class="fill" style="width:${Math.max(w,0.5)}%"></span></div>
       <div class="val">${dtxt(cur,S.year,tot)}${chg}</div></div>`+(open?lineRows(opts.side,idx,w,cur):"")};
   });
-  if(opts&&opts.ftSub&&S.ftOpen){
-    const sub=Object.entries(FT).filter(([,o])=>o.v[i]!=null).sort((a,b)=>b[1].v[i]-a[1].v[i]);
-    const subHtml=sub.map(([k,o])=>`<div class="br sub"><div class="lbl">${k}<em>${o.en}</em></div>
-      <div class="track"><span class="fill" style="width:${o.v[i]/max*100}%"></span></div>
-      <div class="val">${dtxt(o.v[i],S.year,tot)}</div></div>`).join("");
-    const at=parts.findIndex(p=>p.key==="Folketrygden");
-    if(at>-1) parts[at].html+=subHtml;
-  }
   el.innerHTML=parts.map(p=>p.html).join("");
 }
 
@@ -1719,13 +1732,61 @@ function deptTable(){
 }
 
 
+/* ---------- sankey: revenue -> the state's pool -> ministries (2027 proposal) ---------- */
+const SK={all:false};
+function renderSankey(){
+  const W=1000,H=640,P=26,GAP=9,NW=14,LX=236,MX=(W-NW)/2,RX=W-250-NW;
+  const sh=s=>s.replace("departementet","dep.");
+  const iy=ACC.y.indexOf(LAST);
+  let L=Object.values(REV).map(o=>({n:o.en.replace(" contributions",""),v:o.v[NY],c:"var(--s1)"})).sort((a,b)=>b.v-a.v);
+  const sm=L.filter(x=>x.v<10); L=L.filter(x=>x.v>=10);
+  if(sm.length) L.push({n:"Customs, electricity, other",v:sm.reduce((a,x)=>a+x.v,0),c:"var(--s1)"});
+  L.push({n:"Transfer from the oil fund",v:ACC.tr[iy],c:"var(--oil)"});
+  const dt=Object.values(deptTree()).map(d=>({id:d.id,n:sh(MIN.dept[d.id][0]),v:d.tot/1e6})).sort((a,b)=>b.v-a.v);
+  let R=dt;
+  if(!SK.all){ const big=dt.filter(x=>x.v>=30), small=dt.filter(x=>x.v<30);
+    if(small.length>1) R=big.concat([{n:small.length+" smaller ministries",v:small.reduce((a,x)=>a+x.v,0)}]); }
+  const total=L.reduce((a,x)=>a+x.v,0), T=total*1e6;
+  const k=(H-2*P-GAP*Math.max(L.length,R.length-0)+GAP)/total;
+  const colTop=n=>(H-(total*k+GAP*(n-1)))/2, midTop=(H-total*k)/2;
+  let y=colTop(L.length); L.forEach(x=>{ x.y=y; x.h=x.v*k; y+=x.h+GAP; });
+  y=colTop(R.length); R.forEach(x=>{ x.y=y; x.h=x.v*k; y+=x.h+GAP; });
+  const band=(x0,y0,x1,y1,h)=>{ const xm=(x0+x1)/2;
+    return `M${x0},${y0.toFixed(1)} C${xm},${y0.toFixed(1)} ${xm},${y1.toFixed(1)} ${x1},${y1.toFixed(1)} L${x1},${(y1+h).toFixed(1)} C${xm},${(y1+h).toFixed(1)} ${xm},${(y0+h).toFixed(1)} ${x0},${(y0+h).toFixed(1)} Z`; };
+  const val=v=>mtxt(v*1e6,T);
+  let links="",nodes="",labels="",off=midTop;
+  L.forEach(x=>{
+    links+=`<path d="${band(LX+NW,x.y,MX,off,x.h)}" fill="${x.c}" opacity="${x.c==="var(--oil)"?.38:.26}"><title>${x.n}: ${val(x.v)}</title></path>`;
+    off+=x.h;
+    nodes+=`<rect x="${LX}" y="${x.y.toFixed(1)}" width="${NW}" height="${Math.max(x.h,1.5).toFixed(1)}" rx="2" fill="${x.c}"/>`;
+    labels+=`<text x="${LX-8}" y="${(x.y+x.h/2+4).toFixed(1)}" text-anchor="end">${x.n} <tspan class="sv">${val(x.v)}</tspan></text>`;
+  });
+  off=midTop;
+  R.forEach(x=>{
+    links+=`<path d="${band(MX+NW,off,RX,x.y,x.h)}" fill="var(--s1)" opacity=".22"><title>${x.n}: ${val(x.v)}</title></path>`;
+    off+=x.h;
+    nodes+=`<rect x="${RX}" y="${x.y.toFixed(1)}" width="${NW}" height="${Math.max(x.h,1.5).toFixed(1)}" rx="2" fill="var(--s1)"/>`;
+    labels+=`<text x="${RX+NW+8}" y="${(x.y+x.h/2+4).toFixed(1)}">${x.n} <tspan class="sv">${val(x.v)}</tspan></text>`;
+  });
+  nodes+=`<rect x="${MX}" y="${midTop.toFixed(1)}" width="${NW}" height="${(total*k).toFixed(1)}" rx="2" fill="var(--slate)"/>`;
+  labels+=`<text x="${MX+NW/2}" y="${(midTop-9).toFixed(1)}" text-anchor="middle" class="sm">The state’s pool · ${val(total)}${S.unit==="mrd"?" mrd. kr":""}</text>`;
+  labels+=`<text x="${LX+NW/2}" y="14" text-anchor="middle" class="sh2">WHERE IT COMES FROM</text><text x="${RX+NW/2}" y="14" text-anchor="middle" class="sh2">WHERE IT GOES</text>`;
+  document.getElementById("skBox").innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Flow of the 2027 budget from revenue sources and the oil fund, through the state’s pool, to the ministries">${links}${nodes}${labels}</svg>`;
+  const fin=MIN.rev.filter(r=>r[0]===16).reduce((a,r)=>a+r[3],0)/1e6, f=nf(fin,0).replace(/ /g," ");
+  const fs=deptTree()["16"].tot/1e6, oil=ACC.tr[iy];
+  document.getElementById("skProse").innerHTML=
+    `Everything the state collects goes into one pool, and the Storting then divides it between the ministries — no tax is earmarked for a particular ministry. The transfer from the oil fund covers ${nf(oil,1)} mrd., or ${nf(oil/total*100,0)} % of the spending. Finansdepartementet collects ${f} mrd. (${nf(fin/REV_TOT[NY]*100,0)} %) of the revenue, but spends only ${nf(fs,1)} mrd. itself.`;
+  const b=document.getElementById("skAll"); b.setAttribute("aria-expanded",String(SK.all));
+  b.textContent=SK.all?"Group the smaller ministries ↑":"Show every ministry ↓";
+}
+
 /* ---------- orchestration ---------- */
-const EXP_OPTS={ftSub:true,side:"exp"}, REV_OPTS={side:"rev"};
+const EXP_OPTS={side:"exp"}, REV_OPTS={side:"rev"};
 function renderDynamic(){
   hint(); renderTiles(); renderHero();
   renderList(document.getElementById("revList"),REV,REV_TOT,REV_OPTS);
   renderList(document.getElementById("expList"),EXP,EXP_TOT,EXP_OPTS);
-  renderSM(); renderDept();
+  renderSM(); renderDept(); renderSankey();
 }
 function init(){
   renderGap(); renderOil(); renderExcise(); renderFC(); renderTables(); deptTable(); renderDeptText(); renderDynamic();
@@ -1742,11 +1803,6 @@ function init(){
   document.getElementById("rate").addEventListener("input",e=>{
     const v=parseFloat(e.target.value); if(!isNaN(v)&&v>=0&&v<=12){S.rate=v; renderDynamic();}
   });
-  document.getElementById("ftToggle").addEventListener("click",e=>{
-    S.ftOpen=!S.ftOpen; e.target.setAttribute("aria-expanded",String(S.ftOpen));
-    e.target.textContent=S.ftOpen?"Hide the benefit breakdown ↑":"Break folketrygden into its benefits ↓";
-    renderList(document.getElementById("expList"),EXP,EXP_TOT,EXP_OPTS);
-  });
   const dl=document.getElementById("depList");
   const flip=el=>{ const k=el.getAttribute("data-k"); if(!k) return; S.depOpen[k]=!S.depOpen[k]; renderDept(); const n=document.querySelector('#depList [data-k="'+k+'"]'); if(n) n.focus({preventScroll:true}); };
   dl.addEventListener("click",e=>{ const el=e.target.closest("[data-k]"); if(el) flip(el); });
@@ -1758,6 +1814,7 @@ function init(){
     el.addEventListener("click",e=>{ const n=e.target.closest("[data-lk]"); if(n) flip(n); });
     el.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ const n=e.target.closest("[data-lk]"); if(n){ e.preventDefault(); flip(n); } } });
   });
+  document.getElementById("skAll").addEventListener("click",()=>{ SK.all=!SK.all; renderSankey(); });
   document.getElementById("depAll").addEventListener("click",()=>{
     const ds=Object.keys(deptTree()); const all=ds.every(id=>S.depOpen["d:"+id]);
     ds.forEach(id=>{ S.depOpen["d:"+id]=!all; });
