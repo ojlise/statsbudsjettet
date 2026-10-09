@@ -300,6 +300,19 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
   .tile .v{font-size:1.5rem}
 }
 .hyr{font-weight:400;color:var(--muted);font-size:.85em}
+/* ---- structure section ---- */
+.chfig{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:16px 18px 14px;margin-top:16px;box-shadow:var(--shadow)}
+section.alt .chfig{background:var(--surface-2)}
+.chfig h3{font-size:1rem;font-weight:600;margin:0 0 4px;letter-spacing:-.005em}
+.chfig .cap{font-size:.8125rem;color:var(--ink-2);margin:0 0 10px;max-width:80ch}
+.chfig svg{display:block;width:100%;height:auto;overflow:visible}
+.chfig svg text{font-family:'Archivo',system-ui,sans-serif;font-size:11px;fill:var(--ink-2)}
+.chfig svg text.b{fill:var(--ink);font-weight:600}
+.chfig svg text.m{fill:var(--muted)}
+.chgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:760px){.chgrid{grid-template-columns:1fr}}
+.chleg{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.75rem;color:var(--ink-2);margin:2px 0 8px}
+.chleg i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
 </style>
 </head>
 <body>
@@ -434,7 +447,7 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
       <h2>Where the money goes</h2>
       <p class="prose">Four blocks account for two-thirds of the budget: the National Insurance Scheme (<em>folketrygden</em>) at 35 %, block grants to municipalities and counties at 12 %, the regional health trusts at 11 %, and defence — 8,4 % in 2027, up from 6,2 % in the 2025 budget.</p>
     </div>
-    <p class="hintline" style="padding-top:2px">Click a row to see what it is made up of: the benefits for Folketrygden, the ministries it goes out through for the rest (2027 proposal).</p>
+    <p class="hintline" style="padding-top:2px">Click a row to see what the money is spent on: benefit types for Folketrygden, programmes and budget lines for the rest (2027 proposal).</p>
     <div class="barlist" id="expList"></div>
   </div>
 </section>
@@ -498,8 +511,36 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
   </div>
 </section>
 
-<!-- ============ 5. THE GAP ============ -->
+<!-- ============ STRUCTURE ============ -->
 <section>
+  <div class="wrap">
+    <div class="shead">
+      <p class="eyebrow">Structure · real terms, 2021–2027</p>
+      <h2>Is the country changing?</h2>
+      <p class="prose" id="chProse"></p>
+    </div>
+    <div class="chfig"><h3>Three speeds</h3>
+      <p class="cap" id="chBcap"></p>
+      <div class="chleg"><span><i style="background:var(--g3)"></i>New priorities</span><span><i style="background:var(--s1)"></i>Keeps pace with the budget</span><span><i style="background:var(--g12)"></i>Squeezed</span></div>
+      <svg id="chB" viewBox="0 0 760 340" role="img" aria-label="Real growth 2021 to 2027 by spending category"></svg></div>
+    <div class="chgrid">
+      <div class="chfig"><h3>Defence has doubled its share</h3><p class="cap" id="chAcap"></p><svg id="chA" viewBox="0 0 360 230" role="img" aria-label="Share of the budget going to defence and interest"></svg></div>
+      <div class="chfig"><h3>Where the real growth went</h3><p class="cap" id="chA2cap"></p><svg id="chA2" viewBox="0 0 360 230" role="img" aria-label="Contribution to real growth by category"></svg></div>
+    </div>
+    <div class="chfig"><h3>Inside Folketrygden: work incapacity grows faster than ageing</h3>
+      <p class="cap" id="chCcap"></p>
+      <div class="chleg"><span><i style="background:var(--s2)"></i>Sickness, work assessment allowance, disability</span><span><i style="background:var(--s1)"></i>Old-age pension</span><span><i style="background:var(--g12)"></i>Other</span></div>
+      <svg id="chC" viewBox="0 0 760 270" role="img" aria-label="Real growth 2023 to 2027 by Folketrygden benefit"></svg></div>
+    <div class="chfig"><h3>Spending grows steadily, revenue does not</h3><p class="cap" id="chDcap"></p>
+      <div class="chleg"><span><i style="background:var(--s1)"></i>Revenue excl. oil</span><span><i style="background:var(--s2)"></i>Spending excl. oil</span></div>
+      <svg id="chD" viewBox="0 0 760 280" role="img" aria-label="Real revenue and spending 2021 to 2027"></svg></div>
+    <p class="hintline" style="padding-top:12px">All figures deflated with consumer prices (2021 = 100): SSB for 2021–2024, the Ministry of Finance’s forecasts for 2025–2027. Growth is over 2021–2027 unless stated; Folketrygden’s benefit split is complete only from 2023. 2021 is a pandemic year, which flatters the real growth figures somewhat.</p>
+  </div>
+</section>
+
+
+<!-- ============ 5. THE GAP ============ -->
+<section class="alt">
   <div class="wrap">
     <div class="shead">
       <p class="eyebrow">The structural picture</p>
@@ -521,7 +562,7 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
 </section>
 
 <!-- ============ 6. FORECAST BASELINE ============ -->
-<section class="alt">
+<section>
   <div class="wrap">
     <div class="shead">
       <p class="eyebrow">Using this as a baseline</p>
@@ -552,7 +593,7 @@ footer .wrap{padding-block:26px 34px; font-size:.75rem; color:var(--muted); line
 </section>
 
 <!-- ============ 7. DATA ============ -->
-<section>
+<section class="alt">
   <div class="wrap">
     <div class="shead">
       <p class="eyebrow">Data &amp; method</p>
@@ -703,6 +744,9 @@ const DEP={y:[2020,2021,2022,2023,2024,2025,2026], d:{
 }};
 
 const MIN={ /* Gul bok 2027 tallgrunnlag: kr in thousands. rows = expenditure chapters 1–2999 excl. SPU, petroleum and posts 90–99 [ministry, folketrygden?, category, chapter, name, amount, spending-row]; rev = non-petroleum revenue chapters [ministry, chapter, name, amount, revenue-row]; extra = Norfund capital counted under Bistand */
+ omrEn:{"Arbeid og sosiale formål":"Labour and social affairs","Finansadministrasjon":"Financial administration","Kunnskapsformål":"Education and research","Justissektoren":"Justice sector","Kulturformål":"Culture","Nærings- og fiskeriformål":"Trade, industry and fisheries","Klima og miljø":"Climate and environment","Kommunal- og distriktsdepartementet":"Local government and regional development","Energiformål":"Energy","Barn og familie":"Children and families","Digitalisering og forvaltning":"Digitalisation and public administration","Helse og omsorg":"Health and care","Utenriksforvaltning":"Foreign affairs","Ymse":"Miscellaneous (reserve)","Landbruk og mat":"Agriculture and food","Konstitusjonelle institusjoner":"Constitutional institutions"},
+ kapEn:{"571":"Grants to municipalities","572":"Grants to counties","732":"Regional health trusts","1700":"Ministry of Defence","1710":"Defence estates and construction","1716":"Defence research institute","1720":"The armed forces","1730":"Armed forces museum","1735":"Intelligence service","1740":"Classified platform services","1750":"Military support to Ukraine","1760":"Defence materiel, major procurement and maintenance","1791":"Rescue helicopter service","1300":"Ministry of Transport","1301":"Research and development","1310":"Air transport","1313":"Civil aviation authority","1314":"Accident investigation board","1315":"Grants to Avinor (airports)","1320":"Public Roads Administration","1321":"Nye Veier (motorway company)","1323":"Road supervision authority","1330":"Special transport measures","1332":"Transport in urban areas","1352":"Railway Directorate","1354":"Railway safety authority","1358":"Norske tog (train operator)","1370":"Postal services","240":"Vocational colleges","241":"Higher vocational education","242":"Norway’s green vocational college – Vea","260":"Universities and university colleges","270":"Student welfare","271":"Education quality agency","272":"Internationalisation of higher education","273":"Sector IT provider (Sikt)","274":"University Centre in Svalbard","275":"Higher education and research measures","284":"National research ethics committees","285":"Research Council of Norway","288":"International cooperation","289":"Scientific prizes","140":"Ministry of Foreign Affairs (aid administration)","141":"Norad (aid directorate)","144":"Norec (exchange programmes)","150":"Humanitarian aid","151":"Peace, security and global cooperation","152":"Human rights","159":"Regional allocations","160":"Health","161":"Education, research and public institutions","162":"Business development, food systems, renewables","163":"Climate, environment and oceans","164":"Gender equality","165":"Norfund","170":"Civil society","171":"UN development work","172":"Multilateral finance institutions and debt relief","179":"Refugee measures in Norway","440":"The police","442":"Police University College","443":"Prosecution authority (police)","444":"Police Security Service (PST)","445":"Higher prosecution authority","448":"Border commissioner","844":"Cash-for-care","845":"Child benefit","1150":"Implementation of the agricultural agreement","1650":"Government debt, interest"},
+ posts:{"140":[[21,"Spesielle driftsutgifter","Special operating expenses",101688]],"141":[[1,"Driftsutgifter","Operating expenses",462366],[21,"Spesielle driftsutgifter","Special operating expenses",31671]],"144":[[70,"Utvekslingsordninger","Exchange schemes",143477],[1,"Driftsutgifter","Operating expenses",81209],[71,"Rekruttering til internasjonale organisasjoner","Recruitment to international organisations",63349],[21,"Spesielle driftsutgifter","Special operating expenses",13966]],"150":[[70,"Nødhjelp og humanitær bistand","Emergency relief and humanitarian aid",4836481],[72,"FNs høykommissær for flyktninger (UNHCR)","UN refugee agency (UNHCR)",630000],[71,"Verdens matvareprogram (WFP)","World Food Programme",430000]],"151":[[74,"Pliktige bidrag til FN-organisasjoner mv.","Mandatory UN contributions",376067],[70,"Fred og konfliktløsning","Peace and conflict resolution",350260],[73,"FNs innsats for reform og fredsbygging","UN reform and peacebuilding",238138],[71,"Globale sikkerhetsspørsmål og nedrustning","Global security and disarmament",103420]],"152":[[70,"Menneskerettigheter","Human rights",683993],[71,"FNs høykommissær for menneskerettigheter (OHCHR)","UN human rights office (OHCHR)",197000]],"159":[[73,"Ukraina og naboland","Ukraine and neighbours",14135800],[75,"Afrika","Africa",1484022],[70,"Midtøsten og Nord-Afrika","Middle East and North Africa",1038815],[76,"Asia","Asia",376503],[72,"Afghanistan","Afghanistan",316241],[71,"Europa og Sentral-Asia","Europe and Central Asia",313817],[77,"Latin-Amerika og Karibia","Latin America and the Caribbean",98432]],"160":[[70,"Helse","Health",3598381],[71,"Verdens helseorganisasjon (WHO)","World Health Organization",255000]],"161":[[73,"Styresett og offentlige institusjoner","Governance and public institutions",628363],[70,"Utdanning","Education",546798],[74,"Norges forskningsråd - utviklingsområdet","Research Council – development",198200],[71,"Forskning","Research",67876]],"162":[[71,"Matsikkerhet, fisk og landbruk","Food security, fisheries, agriculture",1377966],[72,"Fornybar energi","Renewable energy",969358],[70,"Bærekraftig jobbskaping, næringsutvikling og handel","Sustainable jobs, business and trade",154536]],"163":[[70,"Miljø og klima","Environment and climate",1243811],[71,"Bærekraftige hav og tiltak mot marin forsøpling","Sustainable oceans and marine litter",232100]],"164":[[72,"FNs befolkningsfond (UNFPA)","UN Population Fund",589600],[70,"Likestilling","Gender equality",273319],[71,"FNs organisasjon for kvinners rettigheter og likestilling (UN Women)","UN Women",140300]],"165":[[70,"Risikokapital utviklingsmandatet","Risk capital – development mandate",779955],[71,"Risikokapital Klimainvesteringsfondet","Risk capital – climate investment fund",416667],[72,"Risikokapital Ukraina-fondet","Risk capital – Ukraine fund",375000],[73,"Bedriftsstøtte og selskapsutvikling","Business support",35000]],"170":[[70,"Sivilt samfunn","Civil society",2570665]],"171":[[71,"FNs barnefond (UNICEF)","UNICEF",380600],[70,"FNs utviklingsprogram (UNDP)","UN Development Programme",354400],[73,"FN og multilateralt samarbeid","UN and multilateral cooperation",11200]],"172":[[70,"Verdensbanken","World Bank",1270980],[71,"Regionale banker og fond","Regional banks and funds",1127000],[73,"Gjeldslette","Debt relief",492030]],"179":[[21,"Spesielle driftsutgifter","Special operating expenses",2580868]],"240":[[60,"Driftstilskudd til fagskoler","Operating grants to vocational colleges",2043115],[61,"Utviklingsmidler for høyere yrkesfaglig utdanning","Development funds, higher vocational education",92249]],"241":[[21,"Spesielle driftsutgifter","Special operating expenses",21412]],"242":[[1,"Driftsutgifter","Operating expenses",39958],[45,"Større utstyrsanskaffelser og vedlikehold","Major equipment and maintenance",3152]],"260":[[50,"Statlige universiteter og høyskoler","State universities and colleges",47862058],[70,"Private høyskoler","Private colleges",2434042]],"270":[[75,"Tilskudd til bygging av studentboliger","Student housing construction grants",1756924],[74,"Tilskudd til velferdsarbeid mv.","Student welfare grants",157621]],"271":[[1,"Driftsutgifter","Operating expenses",158486],[21,"Spesielle driftsutgifter","Special operating expenses",4811]],"272":[[71,"Tilskudd til tiltak for internasjonalisering","Internationalisation grants",164271],[72,"Tilskudd til tiltak for høyere utdanning","Higher education grants",47107]],"273":[[50,"Virksomhetskostnader","Agency operating costs",237155],[70,"Infrastruktur for tungregning","Supercomputing infrastructure",164817]],"274":[[70,"Tilskudd til Universitetssenteret på Svalbard","Grant to the University Centre in Svalbard",200884]],"275":[[70,"Tilskudd","Grants",71782],[21,"Spesielle driftsutgifter","Special operating expenses",52940]],"284":[[1,"Driftsutgifter","Operating expenses",23454]],"285":[[71,"Strategiske forskningsprioriteringer","Strategic research priorities",3810900],[72,"Langsiktig, grunnleggende forskning","Long-term basic research",1923100],[1,"Driftsutgifter","Operating expenses",795848],[75,"Avsetning til usikker framdrift","Provision for uncertain progress",500000],[73,"Grunnbevilgning til samfunnsvitenskapelige forskningsinstitutter","Core grants to social-science research institutes",266463],[21,"Spesielle driftsutgifter","Special operating expenses",114059]],"288":[[73,"EUs rammeprogram for forskning og innovasjon","EU research and innovation framework programme",3736306],[74,"EUs program for utdanning, opplæring, ungdom og idrett","EU programme for education, training, youth and sport",1328809],[72,"Internasjonale grunnforskningsorganisasjoner","International basic-research organisations",455017],[75,"UNESCO-kontingent","UNESCO membership fee",22644],[21,"Spesielle driftsutgifter","Special operating expenses",14235],[76,"UNESCO-formål","UNESCO purposes",5000]],"289":[[51,"Holbergprisen","Holberg Prize",22334],[71,"Abelprisen","Abel Prize",21732],[72,"Kavliprisen","Kavli Prize",16910]],"440":[[1,"Driftsutgifter","Operating expenses",26122237],[73,"Internasjonale forpliktelser, mv.","International commitments",919081],[45,"Større utstyrsanskaffelser og vedlikehold","Major equipment and maintenance",680105],[48,"Tildeling fra EUs grense- og visumfinansieringsordninger","Allocation from EU border and visa funds",272700],[25,"Variable utgifter ved ankomst, mottak og retur i politiets utlendingsforvaltning","Variable costs of arrival, reception and return (police immigration)",200144],[23,"Sideutgifter i forbindelse med sivile gjøremål","Incidental costs of civil tasks",31283],[21,"Spesielle driftsutgifter - forskning og utvikling","Special operating costs – research and development",19962],[22,"Søk etter antatt omkomne","Search for presumed dead",10185],[70,"Tilskudd","Grants",5000]],"442":[[1,"Driftsutgifter","Operating expenses",812551]],"443":[[1,"Driftsutgifter","Operating expenses",1832359]],"444":[[1,"Driftsutgifter","Operating expenses",2188275],[45,"Større utstyrsanskaffelser og vedlikehold","Major equipment and maintenance",85176]],"445":[[1,"Driftsutgifter","Operating expenses",417650]],"448":[[1,"Driftsutgifter","Operating expenses",7850]],"571":[[60,"Innbyggertilskudd","Per-capita grant",211605077],[62,"Distriktstilskudd Nord-Norge","District grant, Northern Norway",2785016],[64,"Skjønnstilskudd","Discretionary grant",1030000],[61,"Distriktstilskudd Sør-Norge","District grant, Southern Norway",946433],[67,"Storbytilskudd","Big-city grant",718837],[66,"Veksttilskudd","Growth grant",74635],[21,"Spesielle driftsutgifter","Special operating expenses",23887]],"572":[[60,"Innbyggertilskudd","Per-capita grant",59508256],[62,"Nord-Norge-tilskudd","Northern Norway grant",875745]],"732":[[72,"Basisbevilgning Helse Sør-Øst RHF","Basic grant – South-Eastern RHF",90289959],[76,"Innsatsstyrt finansiering","Activity-based funding",46550832],[73,"Basisbevilgning Helse Vest RHF","Basic grant – Western RHF",31602754],[74,"Basisbevilgning Helse Midt-Norge RHF","Basic grant – Central Norway RHF",23439565],[75,"Basisbevilgning Helse Nord RHF","Basic grant – Northern RHF",20003064],[80,"Kompensasjon for merverdiavgift","VAT compensation",12055518],[70,"Særskilte tilskudd","Special grants",10161791],[82,"Investeringslån","Investment loans",8748600],[77,"Laboratorie- og radiologiske undersøkelser","Laboratory and radiology examinations",4876019],[78,"Forskning mv.","Research etc.",1043614],[83,"Byggelånsrenter","Interest on construction loans",901000],[71,"Resultatbasert finansiering","Results-based funding",717382],[21,"Spesielle driftsutgifter","Special operating expenses",3237]],"844":[[70,"Tilskudd","Grants",739000]],"845":[[70,"Tilskudd","Grants",30060000]],"1150":[[74,"Direkte tilskudd","Direct subsidies",19590306],[73,"Pristilskudd","Price subsidies",7505590],[50,"Tilskudd til Landbrukets utviklingsfond","Grant to the Agricultural Development Fund",2970253],[78,"Velferdsordninger","Welfare schemes",2256442],[77,"Utviklingstiltak","Development measures",520797],[70,"Markedstiltak","Market measures",407750],[71,"Tilskudd ved produksjonssvikt","Compensation for crop failure",132400],[21,"Spesielle driftsutgifter","Special operating expenses",32000],[72,"Kompensasjon for tap - kadmium i løk","Compensation for losses – cadmium in onions",5000]],"1300":[[1,"Driftsutgifter","Operating expenses",207100],[71,"Tilskudd til trafikksikkerhetsformål mv.","Road-safety grants",77700],[70,"Tilskudd til internasjonale organisasjoner","Grants to international organisations",34900],[21,"Spesielle driftsutgifter","Special operating expenses",13300],[73,"Tilskudd for å følge opp Barnas transportplan","Grant for the Children’s transport plan",8200]],"1301":[[72,"Norges forskningsråd - NTP-formål","Research Council – national transport plan",76800],[71,"Norges forskningsråd","Research Council of Norway",63400],[73,"Tilskudd til Innovasjon Norge","Grant to Innovation Norway",32000],[70,"Pilotprosjekter for utslippsfrie anleggsplasser","Pilots: zero-emission construction sites",29500]],"1310":[[70,"Kjøp av innenlandske flyruter","Purchase of domestic air routes",2583100]],"1313":[[1,"Driftsutgifter","Operating expenses",381200],[21,"Spesielle driftsutgifter","Special operating expenses",10400]],"1314":[[1,"Driftsutgifter","Operating expenses",109400]],"1315":[[71,"Tilskudd til pålagte oppgaver","Grants for mandated tasks",230700],[72,"Tilskudd til null- og lavutslippsluftfart","Grant for zero/low-emission aviation",41500]],"1320":[[22,"Drift og vedlikehold av riksveier","Operation and maintenance of national roads",11917400],[30,"Riksveiinvesteringer","National road investments",10720700],[29,"OPS-prosjekter","Public-private partnership projects",7623800],[1,"Driftsutgifter","Operating expenses",5389300],[72,"Tilskudd til riksveiferjedriften","Grants to national-road ferries",3939300],[28,"Trafikant- og kjøretøytilsyn","Driver and vehicle supervision",2652600],[32,"Fellesprosjektet Vossebanen/E16 Arna-Stanghelle","Voss line / E16 Arna–Stanghelle joint project",943000],[73,"Tilskudd for reduserte bompengetakster utenfor byområdene","Grant for lower road tolls outside cities",738400],[61,"Rentekompensasjon for transporttiltak i fylkene","Interest compensation for county transport projects",349300],[67,"Militær mobilitet på fylkesveier","Military mobility on county roads",95600],[68,"Tilskudd for Tretten bru","Grant for Tretten bridge",25100]],"1321":[[70,"Tilskudd til Nye Veier AS","Grant to Nye Veier",7257100]],"1323":[[1,"Driftsutgifter","Operating expenses",24400]],"1330":[[70,"Kjøp av sjøtransporttjenester på strekningen Bergen-Kirkenes","Coastal route Bergen–Kirkenes",1309900],[62,"Tilskudd til kollektivtransport","Grants to public transport",620000],[60,"Utvidet TT-ordning for brukere med særskilte behov","Extended transport scheme for users with special needs",377400],[76,"Reiseplanlegger og elektronisk billettering","Journey planner and e-ticketing",222200],[78,"Tettere samarbeid om data","Closer data cooperation",40300],[77,"Kjøp av tjenester fra Entur AS","Services from Entur (ticketing)",23700],[72,"Pilotprosjekt for samordning av offentlig betalt transport","Pilot: coordinating publicly paid transport",10000]],"1332":[[66,"Tilskudd til byområder","Grants to urban areas",4779800],[63,"Særskilt tilskudd til store kollektivprosjekter","Special grant for large public-transport projects",1707600]],"1352":[[73,"Kjøp av infrastrukturtjenester - investeringer","Rail infrastructure – investments",10700100],[71,"Kjøp av infrastrukturtjenester - drift og vedlikehold","Rail infrastructure – operation and maintenance",7887200],[72,"Kjøp av infrastrukturtjenester - fornying og mindre investeringer","Rail infrastructure – renewal and small investments",7249300],[70,"Kjøp av persontransport med tog","Purchase of passenger rail services",5574900],[1,"Driftsutgifter","Operating expenses",452100],[75,"Tilskudd til godsoverføring fra vei til jernbane","Grant for moving freight from road to rail",144900],[74,"Tilskudd til togmateriell mv.","Grants for rolling stock",120200],[21,"Spesielle driftsutgifter - utredninger","Special operating costs – studies",114900],[76,"Tilskudd til kulturminner i jernbanesektoren","Grant for heritage in the rail sector",44000]],"1354":[[1,"Driftsutgifter","Operating expenses",127500]],"1358":[[70,"Lån","Loans",1200600],[71,"Egenkapitaltilskudd","Equity contribution",105900]],"1370":[[70,"Kjøp av posttjenester","Purchase of postal services",1520700]],"1650":[[89,"Renter og provisjon mv. på innenlandsk statsgjeld","Interest and commissions on domestic government debt",24399107]],"1700":[[78,"Norges tilskudd til NATOs og internasjonale driftsbudsjetter","Norway’s contribution to NATO and international operating budgets",1892823],[1,"Driftsutgifter","Operating expenses",956701],[21,"Spesielle driftsutgifter","Special operating expenses",214580],[73,"Forskning og utvikling","Research and development",172075],[71,"Overføringer til andre","Transfers to others",103000],[72,"Tilskudd til Norges forskningsråd","Grant to the Research Council",66400],[53,"Risikokapital, NATO innovasjonsfond","Risk capital, NATO innovation fund",14900],[52,"Overføringer til statlige forvaltningsorganer","Transfers to state agencies",6402],[60,"Overføringer til kommuner og fylkeskommuner","Transfers to municipalities and counties",3207]],"1710":[[1,"Driftsutgifter","Operating expenses",10086631],[47,"Nybygg og nyanlegg","New buildings and facilities",7777840]],"1716":[[51,"Tilskudd til Forsvarets forskningsinstitutt","Grant to the Defence Research Institute",398820]],"1720":[[1,"Driftsutgifter","Operating expenses",54142696],[71,"Overføringer til andre","Transfers to others",53179]],"1730":[[1,"Driftsutgifter","Operating expenses",212608],[21,"Spesielle driftsutgifter - gaver og donasjoner","Special operating costs – gifts and donations",10000],[71,"Overføringer til andre","Transfers to others",5878]],"1735":[[21,"Spesielle driftsutgifter","Special operating expenses",5365823]],"1740":[[1,"Driftsutgifter","Operating expenses",853203],[45,"Større utstyrsanskaffelser og vedlikehold","Major equipment and maintenance",160925]],"1750":[[21,"Spesielle driftsutgifter","Special operating expenses",40050000],[79,"Tilskudd til militær støtte for Ukraina","Grant for military support to Ukraine",28601399]],"1760":[[45,"Større utstyrsanskaffelser og vedlikehold","Major equipment and maintenance",33742377],[1,"Driftsutgifter","Operating expenses",2928898],[48,"Fellesfinansierte investeringer, fellesfinansiert andel","Jointly financed investments, joint share",1950000],[44,"Fellesfinansierte investeringer, nasjonalfinansiert andel","Jointly financed investments, national share",606414],[75,"Fellesfinansierte investeringer, Norges tilskudd til NATOs investeringsprogram for sikkerhet","Norway’s contribution to NATO’s security investment programme",467282]],"1791":[[1,"Driftsutgifter","Operating expenses",809120]]},
  gross:3118450080, spu:568426900, petro:35000000, loans:228225549,
  dept:{"1":["Utenriksdepartementet","Ministry of Foreign Affairs"],"2":["Kunnskapsdepartementet","Ministry of Education and Research"],"3":["Kultur- og likestillingsdepartementet","Ministry of Culture and Equality"],"4":["Justis- og beredskapsdepartementet","Ministry of Justice and Public Security"],"5":["Kommunal- og distriktsdepartementet","Ministry of Local Government and Regional Development"],"6":["Arbeids- og inkluderingsdepartementet","Ministry of Labour and Inclusion"],"7":["Helse- og omsorgsdepartementet","Ministry of Health and Care Services"],"8":["Barne- og familiedepartementet","Ministry of Children and Families"],"9":["Nærings- og fiskeridepartementet","Ministry of Trade, Industry and Fisheries"],"11":["Landbruks- og matdepartementet","Ministry of Agriculture and Food"],"13":["Samferdselsdepartementet","Ministry of Transport"],"14":["Klima- og miljødepartementet","Ministry of Climate and Environment"],"15":["Digitaliserings- og forvaltningsdepartementet","Ministry of Digitalisation and Public Governance"],"16":["Finansdepartementet","Ministry of Finance"],"17":["Forsvarsdepartementet","Ministry of Defence"],"18":["Energidepartementet","Ministry of Energy"],"23":["Ymse","Miscellaneous (reserve, ymse)"]},
  kat:[["Det kongelige hus","Konstitusjonelle institusjoner"],["Regjeringen","Konstitusjonelle institusjoner"],["Stortinget og eksterne organer","Konstitusjonelle institusjoner"],["Rettsvesen","Justissektoren"],["Administrasjon av utenrikspolitikken","Utenriksforvaltning"],["Utenriksformål","Utenriksforvaltning"],["Forvaltning av utviklingssamarbeidet","Internasjonal bistand"],["Utviklingssamarbeidet","Internasjonal bistand"],["Administrasjon","Kunnskapsformål"],["Grunnopplæringen","Kunnskapsformål"],["Barnehager","Kunnskapsformål"],["Høyere yrkesfaglig utdanning","Kunnskapsformål"],["Kompetansepolitikk og livslang læring","Kunnskapsformål"],["Høyere utdanning og forskning","Kunnskapsformål"],["Administrasjon","Kulturformål"],["Frivillighetsformål","Kulturformål"],["Kulturformål","Kulturformål"],["Medieformål m.m.","Kulturformål"],["Likestilling","Kulturformål"],["Administrasjon","Justissektoren"],["Straffegjennomføring og konfliktråd","Justissektoren"],["Politi og påtalemyndighet","Justissektoren"],["Redningstjenesten, samfunnssikkerhet og beredskap","Justissektoren"],["Andre virksomheter","Justissektoren"],["Statens sivilrettsforvaltning, rettshjelp, erstatningsordninger m.m.","Justissektoren"],["Svalbardbudsjettet m.m.","Justissektoren"],["Beskyttelse og innvandring","Justissektoren"],["Administrasjon","Kommunal- og distriktsdepartementet"],["Distrikts- og regionalpolitikk","Kommunal- og distriktsdepartementet"],["Samiske formål","Kommunal- og distriktsdepartementet"],["Nasjonale minoriteter","Kommunal- og distriktsdepartementet"],["Kommunesektoren mv.","Kommunal- og distriktsdepartementet"],["Bolig, bomiljø og bygg","Kommunal- og distriktsdepartementet"],["Planlegging, byutvikling og geodata","Kommunal- og distriktsdepartementet"],["Administrasjon","Arbeid og sosiale formål"],["Administrasjon av arbeids- og velferdspolitikken","Arbeid og sosiale formål"],["Pensjoner mv. under Statens pensjonskasse","Arbeid og sosiale formål"],["Tiltak for bedrede levekår mv.","Arbeid og sosiale formål"],["Arbeidsmarked","Arbeid og sosiale formål"],["Arbeidsmiljø og sikkerhet","Arbeid og sosiale formål"],["Kontantytelser","Arbeid og sosiale formål"],["Integrering og mangfold","Arbeid og sosiale formål"],["Helse- og omsorgsdepartementet mv.","Helse og omsorg"],["Folkehelse mv.","Helse og omsorg"],["Spesialisthelsetjenester","Helse og omsorg"],["Sentral helseforvaltning","Helse og omsorg"],["Helse- og omsorgstjenester i kommunene","Helse og omsorg"],["Tannhelse","Helse og omsorg"],["Kunnskap og kompetanse","Helse og omsorg"],["Administrasjon og forskning","Barn og familie"],["Familie og oppvekst","Barn og familie"],["Barnevernet","Barn og familie"],["Forbrukerpolitikk","Barn og familie"],["Den norske kirke og andre tros- og livssynssamfunn","Barn og familie"],["Forvaltning og rammebetingelser","Nærings- og fiskeriformål"],["Forskning og innovasjon","Nærings- og fiskeriformål"],["Handel og markedsadgang","Nærings- og fiskeriformål"],["Statlig eierskap","Nærings- og fiskeriformål"],["Administrasjon m.m.","Landbruk og mat"],["Matpolitikk","Landbruk og mat"],["Forskning, innovasjon og kunnskapsutvikling","Landbruk og mat"],["Næringsutvikling, ressursforvaltning og miljøtiltak","Landbruk og mat"],["Administrasjon m.m.","Innenlands transport"],["Luftfartsformål","Innenlands transport"],["Veiformål","Innenlands transport"],["Særskilte transporttiltak","Innenlands transport"],["Jernbaneformål","Innenlands transport"],["Posttjenester","Posttjenester"],["Fellesoppgaver, forskning, internasjonalt arbeid m.m.","Klima og miljø"],["Klima, naturmangfold og forurensning","Klima og miljø"],["Kulturmiljø","Klima og miljø"],["Nord- og polarområdene","Klima og miljø"],["Internasjonalt klimaarbeid","Klima og miljø"],["Administrasjon","Digitalisering og forvaltning"],["Fellestjenester for departementene og Statsministerens kontor","Digitalisering og forvaltning"],["Statsforvalterne","Digitalisering og forvaltning"],["Statlige byggeprosjekter og eiendomsforvaltning","Digitalisering og forvaltning"],["Forvaltningsutvikling, digitaliserings-, personvern- og ekompolitikk","Digitalisering og forvaltning"],["Statlig arbeidsgiverpolitikk","Digitalisering og forvaltning"],["Finansadministrasjon","Finansadministrasjon"],["Skatte-, avgifts- og tolladministrasjon","Finansadministrasjon"],["Offisiell statistikk","Finansadministrasjon"],["Andre formål","Finansadministrasjon"],["Statsgjeld, renter og avdrag mv.","Statlig gjeld og fordringer, renter og avdrag mv."],["Militært forsvar mv.","Militært forsvar"],["Administrasjon","Energiformål"],["Petroleum m.m.","Energiformål"],["Energi og vannressurser","Energiformål"],["Klima, industri og teknologi","Energiformål"],["Sikkerhet og arbeidsmiljø i petroleumsvirksomheten og annen industrivirksomhet til havs","Energiformål"],["Reserve for påregnelige, ikke fordelte utgifter og inntekter","Ymse"],["Utdanningsstøtte","Kunnskapsformål"],["Stønad ved fødsel, adopsjon og bidragsforskott","Foreldrepenger mv., folketrygden"],["Arbeidsliv","Arbeidsliv, folketrygden"],["Arbeidsliv","Arbeidsliv, folketrygden"],["Enslige forsørgere","Sosiale formål, folketrygden"],["Inntektssikring ved sykdom, arbeidsavklaring og uførhet","Sosiale formål, folketrygden"],["Kompensasjon for merutgifter for nedsatt funksjonsevne mv.","Sosiale formål, folketrygden"],["Alderdom","Sosiale formål, folketrygden"],["Forsørgertap mv.","Sosiale formål, folketrygden"],["Spesialisthelsetjenester mv.","Helsetjenester, folketrygden"],["Legehjelp, legemidler mv.","Helsetjenester, folketrygden"],["Andre helsetiltak","Helsetjenester, folketrygden"]],
@@ -1649,10 +1693,53 @@ function mrow(cls,label,sub,vk,w,share,attrs,tot,shareLbl){
     <div class="val">${mtxt(vk,tot)}${share==null?"":`<span class="sh">${nf(share,share<1?2:1)} % ${shareLbl||"of ministry"}</span>`}</div></div>`;
 }
 /* ministries behind one row of the revenue or spending chart; w and cur are the row's bar width (%) and value (mrd.) */
+/* what a spending row is spent on: chapters (programmes) and their budget lines; "All other spending" is grouped by Gul bok programme area first */
+function purposeRows(idx,w,cur){
+  const lk="e:"+idx, T=EXP_TOT[NY]*1e6, P=cur*1e6, CAP=12;
+  const minEn=f=>(MIN.dept[f]||["",""])[1];
+  const chs={};
+  const addc=(f,kap,nb,v,cat)=>{ const c=chs[kap]||(chs[kap]={kap,nb,f,v:0,cat}); c.v+=v; };
+  MIN.rows.forEach(r=>{ if(r[6]===idx) addc(r[0],r[3],r[4],r[5],r[2]); });
+  MIN.extra.forEach(r=>{ if(r[4]===idx) addc(r[0],r[1],r[2],r[3],-1); });
+  const list=Object.values(chs).sort((a,b)=>b.v-a.v);
+  const sc=v=>Math.min(w,v/P*w), pc=v=>v/P*100;
+  const leaf=(cls,label,sub,v)=>mrow(cls,label,sub,v,sc(v),pc(v),"",T,"of this row");
+  const car='<span class="car" aria-hidden="true">▸</span>';
+  const postRows=c=>(MIN.posts[c.kap]||[]).map(p=>leaf("sub k2",p[1],(p[2]?p[2]+" · ":"")+"kap. "+c.kap+" post "+p[0],p[3])).join("");
+  const chapterRow=(c,indent)=>{
+    const ps=MIN.posts[c.kap]||[], en=MIN.kapEn[c.kap]||"", sub=(en?en+" · ":"")+"kap. "+c.kap+(minEn(c.f)?" · "+minEn(c.f):"");
+    if(ps.length<2||c.kap<0) return leaf(indent?"sub k2":"sub k1",c.nb,sub,c.v);
+    const kk=lk+":c"+c.kap, open=!!S.lsOpen[kk];
+    return mrow((indent?"sub k2":"sub k1")+" dep",car+c.nb,sub,c.v,sc(c.v),pc(c.v),` role="button" tabindex="0" aria-expanded="${open}" data-lk="${kk}"`,T,"of this row")+(open?postRows(c):"");
+  };
+  let h="";
+  if(idx!==11){
+    if(list.length===1&&(MIN.posts[list[0].kap]||[]).length>1) h+=postRows(list[0]).replace(/sub k2/g,"sub k1");
+    else list.forEach(c=>{ h+=chapterRow(c,false); });
+  } else {
+    const grp={};
+    list.forEach(c=>{ const o=c.cat>=0?MIN.kat[c.cat][1]:"Andre formål"; (grp[o]||(grp[o]={o,v:0,chs:[]})).v+=c.v; grp[o].chs.push(c); });
+    Object.values(grp).sort((a,b)=>b.v-a.v).forEach(g=>{
+      const kk=lk+":o"+g.o, open=!!S.lsOpen[kk], en=MIN.omrEn[g.o]||"";
+      h+=mrow("sub k1 dep",car+g.o,(en?en+" · ":"")+g.chs.length+(g.chs.length===1?" chapter":" chapters"),g.v,sc(g.v),pc(g.v),` role="button" tabindex="0" aria-expanded="${open}" data-lk="${kk}"`,T,"of this row");
+      if(open){
+        g.chs.slice(0,CAP).forEach(c=>{ h+=leaf("sub k2",c.nb,"kap. "+c.kap+(minEn(c.f)?" · "+minEn(c.f):""),c.v); });
+        if(g.chs.length>CAP){ const rest=g.chs.slice(CAP).reduce((a,c)=>a+c.v,0); h+=leaf("sub k2",(g.chs.length-CAP)+" smaller chapters","",rest); }
+      }
+    });
+  }
+  const adj=P-list.reduce((a,x)=>a+x.v,0);
+  if(Math.abs(adj)>=1.5e5){
+    const key=EXP_KEYS[idx];
+    h+=`<div class="br sub k1 adj"><div class="lbl">${ADJ_NOTE.exp[key]||"Rounding and grouping differences"}</div><div class="track"></div><div class="val">${adj>0?"+":""}${mtxt(adj,T)}</div></div>`;
+  }
+  return h;
+}
 function lineRows(side,idx,w,cur){
   const lk=(side==="exp"?"e:":"r:")+idx;
   if(S.year!==LAST)
-    return `<div class="br sub k1 note"><div class="lbl">The ministry split covers the ${LAST} proposal only<em>Move the year slider to ${LAST}.</em></div></div>`;
+    return `<div class="br sub k1 note"><div class="lbl">The ${side==="exp"?"programme":"ministry"} split covers the ${LAST} proposal only<em>Move the year slider to ${LAST}.</em></div></div>`;
+  if(side==="exp") return purposeRows(idx,w,cur);
   const T=(side==="exp"?EXP_TOT:REV_TOT)[NY]*1e6, P=cur*1e6, tree={};
   const add=(f,kap,kn,v)=>{ const d=tree[f]||(tree[f]={id:String(f),tot:0,chs:[]}); d.tot+=v; d.chs.push({kap,kn,v}); };
   if(side==="exp"){
@@ -1788,11 +1875,107 @@ function renderSankey(){
 
 /* ---------- orchestration ---------- */
 const EXP_OPTS={side:"exp"}, REV_OPTS={side:"rev"};
+/* ---------- structure section ---------- */
+function renderChange(){
+  const CPI=[1]; [5.8,5.5,3.1,3.1,3.3,2.7].forEach(g=>CPI.push(CPI[CPI.length-1]*(1+g/100)));
+  const f1=x=>x.toFixed(1).replace(".",","), f0=x=>Math.round(x).toString(), sg=x=>(x>=0?"+":"−")+Math.abs(x).toFixed(0);
+  const el=(tag,at,txt)=>{const e=document.createElementNS(SVGNS,tag);for(const k in at)e.setAttribute(k,at[k]);if(txt!=null)e.textContent=txt;return e;};
+  const clear=id=>{const s=document.getElementById(id);s.innerHTML="";return s;};
+  const SHORT={"Folketrygden":"National Insurance (Folketrygden)","Rammetilskudd til kommuner og fylkeskommuner":"Block grants to municipalities","Regionale helseforetak":"Regional health trusts","Forsvar":"Defence","Samferdsel":"Transport","Høyere utdanning, forskning og fagskoler":"Higher education & research","Bistand":"Development aid","Politi og påtalemyndighet":"Police & prosecution","Barnetrygd og kontantstøtte":"Child benefit & cash-for-care","Jordbruksavtalen":"Agricultural agreement","Renter på statsgjeld":"Interest on state debt","Andre utgifter":"All other spending"};
+  const keys=Object.keys(EXP), n=YRS.length;
+  const real=k=>EXP[k].v.map((v,i)=>v/CPI[i]);
+  const totR=EXP_TOT.map((v,i)=>v/CPI[i]);
+  const gr=k=>{const r=real(k);return (r[n-1]/r[0]-1)*100;};
+  const totG=(totR[n-1]/totR[0]-1)*100;
+  const exDef=(()=>{const a=keys.filter(k=>k!=="Forsvar").reduce((s,k)=>s+real(k)[n-1],0), b=keys.filter(k=>k!=="Forsvar").reduce((s,k)=>s+real(k)[0],0);return (a/b-1)*100;})();
+  const share=(k,i)=>EXP[k].v[i]/EXP_TOT[i]*100;
+  const grp=k=>({"Forsvar":"new","Renter på statsgjeld":"new","Jordbruksavtalen":"new","Samferdsel":"sq","Høyere utdanning, forskning og fagskoler":"sq"}[k]||"keep");
+  const COL={new:"var(--g3)",keep:"var(--s1)",sq:"var(--g12)"};
+  document.getElementById("chProse").innerHTML=`Adjusted for inflation, spending is up <strong>${f0(totG)} %</strong> since 2021 — <strong>${f0(exDef)} %</strong> without defence. The shape of the welfare state has hardly moved: Folketrygden, municipal grants and the health trusts still take about 58 % of the budget. The one clear change is security — defence has gone from ${f1(share("Forsvar",0))} % to ${f1(share("Forsvar",n-1))} % of spending — and the pressure on how the budget is paid for.`;
+  /* B: real growth bars */
+  { const s=clear("chB"), rows=keys.map(k=>({k,g:gr(k),sh:share(k,n-1)})).sort((a,b)=>b.g-a.g);
+    const L=250,R=60,T=26,rh=22, W=760, lo=-20, hi=150, X=v=>L+(v-lo)/(hi-lo)*(W-L-R-60);
+    s.appendChild(el("text",{x:X(0),y:12,"text-anchor":"middle",class:"m"},"0 %"));
+    s.appendChild(el("line",{x1:X(0),x2:X(0),y1:T-6,y2:T+rows.length*rh,stroke:"var(--base)"}));
+    s.appendChild(el("line",{x1:X(totG),x2:X(totG),y1:T-6,y2:T+rows.length*rh,stroke:"var(--ink)","stroke-dasharray":"3 3"}));
+    s.appendChild(el("text",{x:X(totG)+4,y:12,class:"b"},"Total budget "+sg(totG)+" %"));
+    rows.forEach((r,i)=>{const y=T+i*rh;
+      s.appendChild(el("text",{x:L-10,y:y+14,"text-anchor":"end"},SHORT[r.k]));
+      const x0=X(Math.min(0,r.g)), x1=X(Math.max(0,r.g));
+      s.appendChild(el("rect",{x:x0,y:y+3,width:Math.max(1,x1-x0),height:15,rx:2,fill:COL[grp(r.k)]}));
+      s.appendChild(el("text",{x:(r.g>=0?x1+6:x0-6),y:y+14,"text-anchor":r.g>=0?"start":"end",class:"b"},sg(r.g)+" %"));
+      s.appendChild(el("text",{x:W-4,y:y+14,"text-anchor":"end",class:"m"},f1(r.sh)+" % of budget"));
+    });
+    s.appendChild(el("text",{x:W-4,y:12,"text-anchor":"end",class:"m"},"Share in 2027"));
+    document.getElementById("chBcap").textContent="Real growth 2021 → 2027, nominal figures deflated with consumer prices. Defence and interest on debt grow fastest; transport and higher education fall behind inflation-adjusted budget growth.";
+  }
+  /* A: defence and interest shares over time */
+  { const s=clear("chA"), W=360,H=230,L=30,R=104,T=14,B=26, x=i=>L+i/(n-1)*(W-L-R), ymax=9, y=v=>H-B-v/ymax*(H-T-B);
+    [0,3,6,9].forEach(v=>{s.appendChild(el("line",{x1:L,x2:W-R,y1:y(v),y2:y(v),stroke:"var(--grid)"}));s.appendChild(el("text",{x:L-6,y:y(v)+4,"text-anchor":"end",class:"m"},v+" %"));});
+    YRS.forEach((yr,i)=>s.appendChild(el("text",{x:x(i),y:H-8,"text-anchor":"middle",class:"m"},yr)));
+    [["Forsvar","Defence","var(--g3)"],["Renter på statsgjeld","Interest on debt","var(--g8)"]].forEach(([k,l,c])=>{
+      const pts=EXP[k].v.map((_,i)=>x(i)+","+y(share(k,i))).join(" ");
+      s.appendChild(el("polyline",{points:pts,fill:"none",stroke:c,"stroke-width":2.5,"stroke-linejoin":"round"}));
+      EXP[k].v.forEach((_,i)=>s.appendChild(el("circle",{cx:x(i),cy:y(share(k,i)),r:i===0||i===n-1?3.5:2,fill:c})));
+      s.appendChild(el("text",{x:x(n-1)+8,y:y(share(k,n-1))+4,class:"b"},l+" "+f1(share(k,n-1))+" %"));
+      s.appendChild(el("text",{x:x(0),y:y(share(k,0))-8,"text-anchor":"start",class:"m"},f1(share(k,0))+" %"));
+    });
+    document.getElementById("chAcap").textContent=`Share of total spending. Most of the rise comes in the last three budgets.`;
+  }
+  /* A2: where the real growth went */
+  { const s=clear("chA2"), W=360, dR=keys.map(k=>({k,d:real(k)[n-1]-real(k)[0]})), tot=totR[n-1]-totR[0];
+    const top=dR.sort((a,b)=>b.d-a.d), show=top.slice(0,5), rest=top.slice(5).reduce((a,x)=>a+x.d,0);
+    const A2={"Folketrygden":"Folketrygden","Rammetilskudd til kommuner og fylkeskommuner":"Municipal grants","Regionale helseforetak":"Health trusts"};
+    const rows=show.map(r=>({l:A2[r.k]||SHORT[r.k],v:r.d})).concat([{l:"Seven others combined",v:rest}]);
+    const L=150,R=44,T=10,rh=34, X=v=>L+v/ (tot*0.4)*(W-L-R);
+    rows.forEach((r,i)=>{const y=T+i*rh, p=r.v/tot*100;
+      s.appendChild(el("text",{x:L-8,y:y+16,"text-anchor":"end"},r.l));
+      s.appendChild(el("rect",{x:L,y:y+4,width:Math.max(1,X(Math.max(r.v,0))-L),height:18,rx:2,fill:r.l==="Defence"?"var(--g3)":"var(--s1)"}));
+      s.appendChild(el("text",{x:X(Math.max(r.v,0))+6,y:y+17,class:"b"},f0(p)+" %"));
+    });
+    document.getElementById("chA2cap").textContent=`Share of the ${f0(tot)} mrd. real increase (2021 kroner). Defence is ${f1(share("Forsvar",n-1))} % of the budget but ${f0(rows[1].v/tot*100)} % of the growth.`;
+  }
+  /* C: folketrygden benefits real growth 2023-27 */
+  { const s=clear("chC"), i0=2, ks=Object.keys(FT), W=760,L=250,T=14,rh=30;
+    const rows=ks.map(k=>{const v=FT[k].v;return {k,en:FT[k].en,g:((v[n-1]/CPI[n-1])/(v[i0]/CPI[i0])-1)*100,sh0:v[i0]/ks.reduce((a,q)=>a+FT[q].v[i0],0)*100,sh1:v[n-1]/ks.reduce((a,q)=>a+FT[q].v[n-1],0)*100};}).sort((a,b)=>b.g-a.g);
+    const inc=["Uføretrygd","Arbeidsavklaringspenger","Sykepenger"], X=v=>L+v/70*(W-L-170);
+    const cl=k=>inc.includes(k)?"var(--s2)":(k==="Alderspensjon"?"var(--s1)":"var(--g12)");
+    s.appendChild(el("text",{x:W-4,y:8,"text-anchor":"end",class:"m"},"Share of Folketrygden 2023 → 2027"));
+    rows.forEach((r,j)=>{const y=T+j*rh;
+      s.appendChild(el("text",{x:L-10,y:y+17,"text-anchor":"end"},r.en));
+      s.appendChild(el("rect",{x:L,y:y+5,width:Math.max(1,X(r.g)-L),height:17,rx:2,fill:cl(r.k)}));
+      s.appendChild(el("text",{x:X(r.g)+6,y:y+18,class:"b"},sg(r.g)+" %"));
+      s.appendChild(el("text",{x:W-4,y:y+18,"text-anchor":"end",class:"m"},f1(r.sh0)+" → "+f1(r.sh1)+" %"));
+    });
+    const sum=i=>inc.reduce((a,q)=>a+FT[q].v[i],0)/ks.reduce((a,q)=>a+FT[q].v[i],0)*100;
+    document.getElementById("chCcap").textContent=`Real growth 2023 → 2027. The three work-incapacity benefits go from ${f1(sum(2))} % to ${f1(sum(n-1))} % of Folketrygden, while old-age pension slips from ${f1(FT.Alderspensjon.v[2]/ks.reduce((a,q)=>a+FT[q].v[2],0)*100)} % to ${f1(FT.Alderspensjon.v[n-1]/ks.reduce((a,q)=>a+FT[q].v[n-1],0)*100)} %. Unemployment benefit grows fast from a very low 2023 level.`;
+  }
+  /* D: real revenue vs spending, ACC basis 2021-2027 */
+  { const s=clear("chD"), W=760,H=280,L=48,R=150,T=14,B=28, a=ACC.y.indexOf(2021);
+    const rev=ACC.rev.slice(a).map((v,i)=>v/CPI[i]), exp=ACC.exp.slice(a).map((v,i)=>v/CPI[i]), m=rev.length;
+    const lo=900,hi=2000, x=i=>L+i/(m-1)*(W-L-R), y=v=>H-B-(v-lo)/(hi-lo)*(H-T-B);
+    [1000,1250,1500,1750,2000].forEach(v=>{s.appendChild(el("line",{x1:L,x2:W-R,y1:y(v),y2:y(v),stroke:"var(--grid)"}));s.appendChild(el("text",{x:L-6,y:y(v)+4,"text-anchor":"end",class:"m"},v));});
+    YRS.forEach((yr,i)=>s.appendChild(el("text",{x:x(i),y:H-8,"text-anchor":"middle",class:"m"},yr)));
+    const area=rev.map((v,i)=>x(i)+","+y(v)).concat(exp.map((v,i)=>[x(m-1-i)+","+y(exp[m-1-i])]).flat());
+    s.appendChild(el("polygon",{points:area.join(" "),fill:"var(--oil-soft)"}));
+    [[rev,"var(--s1)","Revenue"],[exp,"var(--s2)","Spending"]].forEach(([arr,c,l])=>{
+      s.appendChild(el("polyline",{points:arr.map((v,i)=>x(i)+","+y(v)).join(" "),fill:"none",stroke:c,"stroke-width":2.5,"stroke-linejoin":"round"}));
+      arr.forEach((v,i)=>s.appendChild(el("circle",{cx:x(i),cy:y(v),r:i===m-1?3.5:2,fill:c})));
+      s.appendChild(el("text",{x:x(m-1)+8,y:y(arr[m-1])+4,class:"b"},l+" "+f0(arr[m-1])));
+    });
+    const gap=exp.map((v,i)=>v-rev[i]), iMin=gap.indexOf(Math.min(...gap));
+    s.appendChild(el("text",{x:x(iMin),y:y((rev[iMin]+exp[iMin])/2)+4,"text-anchor":"middle",class:"b"},"gap "+f0(gap[iMin])));
+    s.appendChild(el("text",{x:x(m-1)-6,y:y((rev[m-1]+exp[m-1])/2)+4,"text-anchor":"end",class:"b"},"gap "+f0(gap[m-1])));
+    const cov=ACC.rev.slice(a).map((v,i)=>v/ACC.exp[a+i]*100);
+    document.getElementById("chDcap").textContent=`mrd. kroner in 2021 prices; the shaded gap is covered by the oil fund. Revenue covered ${f0(Math.max(...cov))} % of spending at its best (${YRS[cov.indexOf(Math.max(...cov))]}) and ${f0(cov[m-1])} % in 2027. Spending climbs every year; revenue jumped in 2022–23 and has stalled since.`;
+  }
+}
+
 function renderDynamic(){
   hint(); renderTiles(); renderHero();
   renderList(document.getElementById("revList"),REV,REV_TOT,REV_OPTS);
   renderList(document.getElementById("expList"),EXP,EXP_TOT,EXP_OPTS);
-  renderSM(); renderDept(); renderSankey();
+  renderSM(); renderDept(); renderSankey(); renderChange();
 }
 function init(){
   renderGap(); renderOil(); renderExcise(); renderFC(); renderTables(); deptTable(); renderDeptText(); renderDynamic();
