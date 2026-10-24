@@ -342,6 +342,14 @@ section.alt .cmp{background:var(--surface)}
 
 .br .val{min-width:104px}
 
+.tg .rs{margin-top:2px;color:var(--ink-2)}
+.howto{background:var(--surface-2);border:1px solid var(--hair);border-left:3px solid var(--slate);border-radius:10px;padding:14px 17px;margin-top:20px;max-width:78ch}
+section.alt .howto{background:var(--surface)}
+.howto h3{font-size:.9375rem;margin-bottom:8px}
+.howto p,.howto li{font-size:.8125rem;color:var(--ink-2);line-height:1.6}
+.howto ul{margin:8px 0;padding-left:18px;display:grid;gap:7px}
+.howto strong{color:var(--ink)}
+
 </style>
 </head>
 <body>
@@ -439,7 +447,16 @@ section.alt .cmp{background:var(--surface)}
       <p class="prose">The usual yardstick is <em>netto driftsresultat</em>: the operating surplus as a share of income. The recommended level is 1,75 %. In 2025 the county's municipalities were <strong>below the national average</strong>, though both improved sharply on 2024.</p>
     </div>
     <div class="tiles" id="tiles4"></div>
-    <div class="legend" style="margin-top:18px">
+    <div class="howto">
+      <h3>How to read the grid below</h3>
+      <p>Each tile shows <strong>two different things</strong>, and they are not measured the same way:</p>
+      <ul>
+        <li><strong>The colour</strong> is the municipality's <em>2025 result</em>: how much of its income was left over after running costs. A municipality that took in 100 million kroner and had 1,75 million left over scores 1,75 %. Green means it reached the recommended 1,75 % or more, yellow means it ended between 0 and 1,75 %, and red means it spent more than it earned. The source gives only these three groups, not each municipality's exact percentage.</li>
+        <li><strong>The number</strong> is the municipality's <em>proposed 2027 growth in free income</em>: how much the state budget lets its income rise next year compared with 2026. A tile can be red (a weak 2025) and still show a large number (a big increase proposed).</li>
+      </ul>
+      <p>The 1,75 % target belongs only to the colour. It should not be compared with the growth number.</p>
+    </div>
+    <div class="legend" style="margin-top:18px"><span class="key" style="font-weight:600;color:var(--ink)">Colour = 2025 result:</span>
       <span class="key"><i style="background:var(--s3);height:11px;width:11px"></i>1,75 % or more</span>
       <span class="key"><i style="background:var(--g4);height:11px;width:11px"></i>0 to 1,75 %</span>
       <span class="key"><i style="background:var(--down);height:11px;width:11px"></i>negative</span>
@@ -672,9 +689,9 @@ $("tiles4").innerHTML=
 (function(){
   const order={G:0,Y:1,R:2,N:3};
   const rows=MUN.slice().sort((a,b)=>order[grp(a.name)]-order[grp(b.name)]||b.pct-a.pct||a.name.localeCompare(b.name,"nb"));
-  $("tg").innerHTML=rows.map(m=>{ const g=grp(m.name); return `<div class="g${g}" title="${esc(m.name)}: 2025 result ${GLAB[g]}; 2027 growth ${sg(m.pct,1)} %"><b>${esc(m.name)}</b><span>2027: ${sg(m.pct,1)} %</span></div>`; }).join("");
+  $("tg").innerHTML=rows.map(m=>{ const g=grp(m.name); return `<div class="g${g}" title="${esc(m.name)}: 2025 result ${GLAB[g]}; 2027 growth ${sg(m.pct,1)} %"><b>${esc(m.name)}</b><span>2027 growth: ${sg(m.pct,1)} %</span><span class="rs">2025 result: ${g==="N"?"not named":GLAB[g]}</span></div>`; }).join("");
   const avg=L=>{ const a=MUN.filter(m=>grp(m.name)===L); return a.reduce((s,m)=>s+m.pct,0)/a.length; };
-  $("tgNote").innerHTML=`Each tile shows a municipality's 2027 free-income growth, coloured by its 2025 result. Simple averages of 2027 growth: ${f(avg("G"),1)} % for those at or above target, ${f(avg("Y"),1)} % for those between 0 and 1,75 %, ${f(avg("R"),1)} % for those with a deficit (unweighted, small municipalities count as much as large). Vanylven is the one municipality the source does not name; see “Checks and known gaps” below.`;
+  $("tgNote").innerHTML=`Number = proposed 2027 growth in free income; colour and the words below it = 2025 result. Simple averages of 2027 growth: ${f(avg("G"),1)} % for those at or above target, ${f(avg("Y"),1)} % for those between 0 and 1,75 %, ${f(avg("R"),1)} % for those with a deficit (unweighted, small municipalities count as much as large). Vanylven is the one municipality the source does not name; see “Checks and known gaps” below.`;
 })();
 
 /* ---------------- 5. other items ---------------- */
